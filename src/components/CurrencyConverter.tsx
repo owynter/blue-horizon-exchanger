@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { toast } from '@/hooks/use-toast';
 import BaseCurrencySection from './BaseCurrencySection';
@@ -84,36 +83,38 @@ const CurrencyConverter: React.FC = () => {
   );
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-blue-900 mb-4 font-sora">CURRENCY CONVERTER</h1>
-        <p className="text-blue-600 font-sora">Convert between multiple currencies in real-time</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-950 to-slate-900">
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-sky-400 mb-4 font-sora">Currency converter</h1>
+          <p className="text-blue-200 font-sora">Convert between multiple currencies in real-time</p>
+        </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-lg">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Column - Base Currency */}
-          <BaseCurrencySection
-            baseAmount={baseAmount}
-            baseCurrency={baseCurrency}
-            onAmountChange={setBaseAmount}
-            onCurrencyChange={setBaseCurrency}
-            currencies={currencies}
-          />
+        <div className="bg-white rounded-2xl p-6 shadow-lg">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left Column - Base Currency */}
+            <BaseCurrencySection
+              baseAmount={baseAmount}
+              baseCurrency={baseCurrency}
+              onAmountChange={setBaseAmount}
+              onCurrencyChange={setBaseCurrency}
+              currencies={currencies}
+            />
 
-          {/* Right Column - Target Currencies */}
-          <TargetCurrenciesSection
-            targetCurrencies={targetCurrencies}
-            setTargetCurrencies={setTargetCurrencies}
-            baseAmount={baseAmount}
-            baseCurrency={baseCurrency}
-            onCurrencyChange={updateTargetCurrency}
-            onRemove={removeCurrency}
-            currencies={currencies}
-            calculateConversion={calculateConversion}
-            availableCurrencies={availableCurrencies}
-            onAddMultipleCurrencies={addMultipleCurrencies}
-          />
+            {/* Right Column - Target Currencies */}
+            <TargetCurrenciesSection
+              targetCurrencies={targetCurrencies}
+              setTargetCurrencies={setTargetCurrencies}
+              baseAmount={baseAmount}
+              baseCurrency={baseCurrency}
+              onCurrencyChange={updateTargetCurrency}
+              onRemove={removeCurrency}
+              currencies={currencies}
+              calculateConversion={calculateConversion}
+              availableCurrencies={availableCurrencies}
+              onAddMultipleCurrencies={addMultipleCurrencies}
+            />
+          </div>
         </div>
       </div>
     </div>

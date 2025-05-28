@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { X, GripVertical } from 'lucide-react';
+import { X, GripVertical, ChevronDown } from 'lucide-react';
 import { formatNumberWithCommas, removeCommas } from '@/lib/numberUtils';
 
 interface CurrencyInputProps {
@@ -52,26 +51,28 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
             value={displayAmount}
             onChange={(e) => handleAmountChange(e.target.value)}
             placeholder="0.00"
-            className="text-stone-950 text-number font-inter font-semibold py-0 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full"
+            className="text-stone-950 font-inter font-semibold py-0 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full"
+            style={{ fontSize: '1.25rem' }}
             readOnly={!isBase}
           />
           
           <div className="relative h-full flex items-center">
             <Select value={currency} onValueChange={onCurrencyChange}>
-              <SelectTrigger className="w-32 h-full border-0 rounded-none bg-transparent [&>svg]:hidden flex items-center">
+              <SelectTrigger className="w-40 h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4">
                 <SelectValue>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{currencies.find(c => c.code === currency)?.flag}</span>
-                    <span className="font-semibold text-stone-950 font-sora">{currency}</span>
+                  <div className="flex items-center gap-3">
+                    <span style={{ fontSize: '1.5rem' }}>{currencies.find(c => c.code === currency)?.flag}</span>
+                    <span className="font-semibold text-stone-950 font-sora" style={{ fontSize: '1.125rem' }}>{currency}</span>
                   </div>
                 </SelectValue>
+                <ChevronDown size={20} className="text-gray-400" />
               </SelectTrigger>
               <SelectContent className="bg-white border-blue-200 shadow-xl z-50">
                 {currencies.map((curr) => (
                   <SelectItem key={curr.code} value={curr.code} className="hover:bg-blue-50">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">{curr.flag}</span>
-                      <span className="font-medium font-sora">{curr.code}</span>
+                    <div className="flex items-center gap-3">
+                      <span style={{ fontSize: '1.5rem' }}>{curr.flag}</span>
+                      <span className="font-medium font-sora" style={{ fontSize: '1.125rem' }}>{curr.code}</span>
                     </div>
                   </SelectItem>
                 ))}

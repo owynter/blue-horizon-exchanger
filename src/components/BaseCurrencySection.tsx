@@ -26,6 +26,7 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
 }) => {
   return (
     <div className="space-y-6">
+      {/* Title - using Sora font for headings */}
       <h3 className="text-lg font-semibold text-blue-900 mb-4 font-sora">Amount</h3>
       <CurrencyInput
         amount={baseAmount}
@@ -37,19 +38,20 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
         showDecimals={showDecimals}
       />
       
-      {/* Compact Decimal Toggle */}
+      {/* Decimal Toggle */}
       <div className="flex items-center gap-3 py-2">
+        {/* Label - using Sora font for interface labels */}
         <span className="text-sm font-semibold text-blue-900 font-sora">Show decimals</span>
         <Tooltip>
           <TooltipTrigger asChild>
             <Switch
               checked={showDecimals}
               onCheckedChange={onDecimalToggle}
-              className="data-[state=unchecked]:bg-blue-300 data-[state=checked]:bg-blue-900"
             />
           </TooltipTrigger>
           <TooltipContent>
-            <p>Toggle to show whole numbers only</p>
+            {/* Tooltip text - using Inter font for body text */}
+            <p className="font-inter">Toggle to show whole numbers only</p>
           </TooltipContent>
         </Tooltip>
       </div>

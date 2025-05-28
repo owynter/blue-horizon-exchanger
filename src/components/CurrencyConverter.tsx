@@ -149,8 +149,11 @@ const CurrencyConverter: React.FC = () => {
         
         <div className="max-w-6xl mx-auto p-6 relative z-10">
           <div className="text-center mb-8">
+            {/* Main title - using Sora font for primary headings */}
             <h1 className="text-4xl font-bold text-sky-400 mb-4 font-sora">Currency converter</h1>
+            {/* Subtitle - using Sora font for secondary headings */}
             <p className="text-blue-200 font-sora">Convert between multiple currencies in real-time</p>
+            {/* Last updated info - using Inter font for body text */}
             <p className="text-xs text-blue-300/80 mt-2 font-inter">
               Rates last updated: {formatRelativeTime(lastUpdated)}
             </p>

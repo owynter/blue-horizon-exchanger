@@ -91,7 +91,8 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
               </div>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Drag to reorder currencies</p>
+              {/* Tooltip text - using Inter font for body text */}
+              <p className="font-inter">Drag to reorder currencies</p>
             </TooltipContent>
           </Tooltip>
         )}
@@ -133,7 +134,8 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Remove this currency</p>
+              {/* Tooltip text - using Inter font for body text */}
+              <p className="font-inter">Remove this currency</p>
             </TooltipContent>
           </Tooltip>
         )}

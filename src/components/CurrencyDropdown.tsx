@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -77,7 +76,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                   <>
                     <div className="flex items-center">
                       <Plus size={16} className="mr-2" />
-                      {placeholder}
+                      <span className="font-sora">{placeholder}</span>
                     </div>
                   </>
                 ) : selectedCurrencyData ? (
@@ -88,14 +87,14 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                     </span>
                   </div>
                 ) : (
-                  placeholder
+                  <span className="font-sora">{placeholder}</span>
                 )}
                 <ChevronDown className="h-4 w-4 opacity-50" />
               </Button>
             </PopoverTrigger>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{multiSelect ? "Select currencies to add to your converter" : "Change currency"}</p>
+            <p className="font-inter">{multiSelect ? "Select currencies to add to your converter" : "Change currency"}</p>
           </TooltipContent>
         </Tooltip>
         <PopoverContent 
@@ -104,9 +103,9 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
           style={{ width: multiSelect ? 'var(--radix-popover-trigger-width)' : '400px' }}
         >
           <Command>
-            <CommandInput placeholder="Search currencies..." className="font-sora" />
+            <CommandInput placeholder="Search currencies..." className="font-inter" />
             <CommandList>
-              <CommandEmpty className="font-sora">No currencies found.</CommandEmpty>
+              <CommandEmpty className="font-inter">No currencies found.</CommandEmpty>
               <CommandGroup>
                 {availableCurrencies.map((currency) => (
                   <CommandItem

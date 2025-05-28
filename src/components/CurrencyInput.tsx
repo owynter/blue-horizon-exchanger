@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { X, GripVertical, ChevronDown } from 'lucide-react';
+import { X, GripVertical } from 'lucide-react';
 import { formatNumberWithCommas, removeCommas } from '@/lib/numberUtils';
 
 interface CurrencyInputProps {
@@ -65,7 +66,6 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
                     <span className="font-semibold text-stone-950 font-sora" style={{ fontSize: '1.125rem' }}>{currency}</span>
                   </div>
                 </SelectValue>
-                <ChevronDown size={20} className="text-gray-400" />
               </SelectTrigger>
               <SelectContent className="bg-white border-blue-200 shadow-xl z-50">
                 {currencies.map((curr) => (

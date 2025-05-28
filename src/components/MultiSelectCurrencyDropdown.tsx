@@ -67,7 +67,7 @@ const MultiSelectCurrencyDropdown: React.FC<MultiSelectCurrencyDropdownProps> = 
               }
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-80 p-0" align="start">
+          <PopoverContent className="p-0" align="start" style={{ width: 'var(--radix-popover-trigger-width)' }}>
             <Command>
               <CommandInput placeholder="Search currencies..." className="font-sora" />
               <CommandList>

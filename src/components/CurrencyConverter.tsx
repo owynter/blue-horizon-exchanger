@@ -83,8 +83,16 @@ const CurrencyConverter: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-950 to-slate-900">
-      <div className="max-w-6xl mx-auto p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 relative overflow-hidden">
+      {/* Abstract texture background */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-400 to-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-gradient-to-t from-yellow-400 to-orange-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-2000"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+      </div>
+      
+      <div className="max-w-6xl mx-auto p-6 relative z-10">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-sky-400 mb-4 font-sora">Currency converter</h1>
           <p className="text-blue-200 font-sora">Convert between multiple currencies in real-time</p>

@@ -222,72 +222,105 @@ const CurrencyConverter: React.FC = () => {
 
       <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-6 shadow-lg">
         <div className="space-y-6">
-          {/* Base Currency Input */}
-          <CurrencyInput
-            amount={baseAmount}
-            currency={baseCurrency}
-            isBase={true}
-            onAmountChange={setBaseAmount}
-            onCurrencyChange={setBaseCurrency}
-            currencies={currencies}
-          />
+          {/* Main conversion layout */}
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 items-center">
+            {/* Base Currency Input */}
+            <CurrencyInput
+              amount={baseAmount}
+              currency={baseCurrency}
+              isBase={true}
+              onAmountChange={setBaseAmount}
+              onCurrencyChange={setBaseCurrency}
+              currencies={currencies}
+            />
+
+            {/* Exchange icon */}
+            <div className="flex items-center justify-center text-blue-600 py-4">
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path fillRule="evenodd" d="m17.586 8-2.293 2.293 1.414 1.414L20.7 7.714a1.01 1.01 0 0 0 0-1.428l-3.993-3.993-1.414 1.414L17.586 6H3v2zm-8.879 5.707L6.414 16H21v2H6.414l2.293 2.293-1.414 1.414L3.3 17.714a1.01 1.01 0 0 1 0-1.428l3.993-3.993z" clipRule="evenodd"/>
+              </svg>
+            </div>
+
+            {/* First target currency or placeholder */}
+            <div>
+              {targetCurrencies.length > 0 ? (
+                <CurrencyInput
+                  amount={calculateConversion(baseAmount, baseCurrency, targetCurrencies[0].code)}
+                  currency={targetCurrencies[0].code}
+                  onCurrencyChange={(newCode) => updateTargetCurrency(targetCurrencies[0].id, newCode)}
+                  onRemove={() => removeCurrency(targetCurrencies[0].id)}
+                  currencies={currencies}
+                />
+              ) : (
+                <div className="text-sm mb-6">
+                  <label className="inline-block max-w-full text-blue-900 font-medium mb-2">
+                    Converted to
+                  </label>
+                  <div className="flex w-full rounded-xl border border-blue-200 h-16 items-center justify-center bg-blue-50">
+                    <span className="text-blue-400">Add a currency to convert to</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
 
           {/* Exchange Rate Display */}
           {targetCurrencies.length > 0 && (
-            <div className="text-center py-2">
-              <div className="text-lg font-semibold text-blue-900">
+            <div className="text-center py-4 border-t border-blue-200">
+              <div className="text-lg font-semibold text-blue-900 mb-1">
                 {baseCurrency} {baseAmount} = {' '}
-                {targetCurrencies.map((tc, index) => {
+                {targetCurrencies.slice(0, 1).map((tc) => {
                   const convertedAmount = calculateConversion(baseAmount, baseCurrency, tc.code);
                   const currency = currencies.find(c => c.code === tc.code);
                   return (
-                    <span key={tc.id}>
+                    <span key={tc.id} className="text-blue-700">
                       {currency?.flag} {convertedAmount} {tc.code}
-                      {index < targetCurrencies.length - 1 ? ', ' : ''}
                     </span>
                   );
                 })}
               </div>
-              <p className="text-sm text-blue-600 mt-1">Mid-market exchange rate</p>
+              <p className="text-sm text-blue-600">Mid-market exchange rate</p>
             </div>
           )}
 
-          {/* Target Currency Inputs with Drag and Drop */}
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={targetCurrencies.map(tc => tc.id)}
-              strategy={verticalListSortingStrategy}
+          {/* Additional Target Currencies with Drag and Drop */}
+          {targetCurrencies.length > 1 && (
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
             >
-              <div className="space-y-4">
-                {targetCurrencies.map((targetCurrency) => (
-                  <SortableCurrencyInput
-                    key={targetCurrency.id}
-                    targetCurrency={targetCurrency}
-                    baseAmount={baseAmount}
-                    baseCurrency={baseCurrency}
-                    onCurrencyChange={updateTargetCurrency}
-                    onRemove={removeCurrency}
-                    currencies={currencies}
-                    calculateConversion={calculateConversion}
-                  />
-                ))}
-              </div>
-            </SortableContext>
-          </DndContext>
+              <SortableContext
+                items={targetCurrencies.slice(1).map(tc => tc.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="space-y-4">
+                  {targetCurrencies.slice(1).map((targetCurrency) => (
+                    <SortableCurrencyInput
+                      key={targetCurrency.id}
+                      targetCurrency={targetCurrency}
+                      baseAmount={baseAmount}
+                      baseCurrency={baseCurrency}
+                      onCurrencyChange={updateTargetCurrency}
+                      onRemove={removeCurrency}
+                      currencies={currencies}
+                      calculateConversion={calculateConversion}
+                    />
+                  ))}
+                </div>
+              </SortableContext>
+            </DndContext>
+          )}
 
           {/* Add Currency Section */}
           {availableCurrencies.length > 0 && (
-            <div className="flex gap-3 items-end">
+            <div className="flex gap-3 items-end pt-4 border-t border-blue-200">
               <div className="flex-1">
                 <label className="block text-sm font-medium text-blue-900 mb-2">
                   Add Currency
                 </label>
                 <Select value={newCurrency} onValueChange={setNewCurrency}>
-                  <SelectTrigger className="border-blue-200 focus:border-blue-500 focus:ring-blue-500">
+                  <SelectTrigger className="border-blue-200 focus:border-blue-500 focus:ring-blue-500 [&>svg]:hidden">
                     <SelectValue placeholder="Select currency to add" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-blue-200 shadow-xl">

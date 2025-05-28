@@ -27,30 +27,53 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   dragHandleProps
 }) => {
   return (
-    <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-blue-100 shadow-sm hover:shadow-md transition-shadow">
+    <div className="text-sm mb-6">
       {!isBase && (
-        <div {...dragHandleProps} className="cursor-move text-blue-400 hover:text-blue-600">
-          <GripVertical size={20} />
+        <div className="flex items-center gap-2 mb-2">
+          <div {...dragHandleProps} className="cursor-move text-blue-400 hover:text-blue-600">
+            <GripVertical size={16} />
+          </div>
+          <label className="inline-block max-w-full text-blue-900 font-medium">
+            {isBase ? 'Amount' : 'Converted to'}
+          </label>
+          {!isBase && onRemove && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onRemove}
+              className="text-red-500 hover:text-red-700 hover:bg-red-50 ml-auto p-1 h-auto"
+            >
+              <X size={14} />
+            </Button>
+          )}
         </div>
       )}
       
-      <div className="flex-1">
-        <label className="block text-sm font-medium text-blue-900 mb-2">
-          {isBase ? 'Amount' : 'Converted to'}
+      {isBase && (
+        <label className="inline-block max-w-full text-blue-900 font-medium mb-2">
+          Amount
         </label>
-        <div className="flex gap-3">
-          <Input
-            type="number"
-            value={amount}
-            onChange={(e) => onAmountChange?.(e.target.value)}
-            placeholder="0.00"
-            className="flex-1 text-lg font-semibold border-blue-200 focus:border-blue-500 focus:ring-blue-500"
-            readOnly={!isBase}
-          />
-          
+      )}
+      
+      <div className="flex w-full rounded-xl border border-blue-200 overflow-hidden">
+        <Input
+          type="number"
+          value={amount}
+          onChange={(e) => onAmountChange?.(e.target.value)}
+          placeholder="0.00"
+          className="text-stone-950 text-xl font-semibold py-3 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0"
+          readOnly={!isBase}
+        />
+        
+        <div className="relative">
           <Select value={currency} onValueChange={onCurrencyChange}>
-            <SelectTrigger className="w-32 border-blue-200 focus:border-blue-500 focus:ring-blue-500">
-              <SelectValue />
+            <SelectTrigger className="w-32 h-16 border-0 rounded-none bg-transparent [&>svg]:hidden">
+              <SelectValue>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">{currencies.find(c => c.code === currency)?.flag}</span>
+                  <span className="font-semibold text-stone-950">{currency}</span>
+                </div>
+              </SelectValue>
             </SelectTrigger>
             <SelectContent className="bg-white border-blue-200 shadow-xl">
               {currencies.map((curr) => (
@@ -65,17 +88,6 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
           </Select>
         </div>
       </div>
-      
-      {!isBase && onRemove && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onRemove}
-          className="text-red-500 hover:text-red-700 hover:bg-red-50"
-        >
-          <X size={16} />
-        </Button>
-      )}
     </div>
   );
 };

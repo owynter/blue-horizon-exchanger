@@ -14,3 +14,36 @@ export const formatNumberWithCommas = (value: string | number): string => {
 export const removeCommas = (value: string): string => {
   return value.replace(/,/g, '');
 };
+
+// New function to handle cursor-friendly number input
+export const formatInputNumber = (value: string, isAtEnd: boolean = false): string => {
+  // Remove all commas first
+  const cleanValue = removeCommas(value);
+  
+  // If cursor is at the end and user is typing, don't force decimal places
+  if (isAtEnd && !cleanValue.includes('.')) {
+    const numValue = parseFloat(cleanValue);
+    if (isNaN(numValue)) return '0';
+    return numValue.toLocaleString('en-US');
+  }
+  
+  // For other cases, use standard formatting
+  return formatNumberWithCommas(cleanValue);
+};
+
+// Function to calculate cursor position after formatting
+export const calculateCursorPosition = (
+  originalValue: string,
+  newValue: string,
+  originalCursorPos: number
+): number => {
+  // Count commas before cursor in original value
+  const commasBefore = (originalValue.substring(0, originalCursorPos).match(/,/g) || []).length;
+  
+  // Count commas before cursor in new value
+  const newCommasBefore = (newValue.substring(0, originalCursorPos).match(/,/g) || []).length;
+  
+  // Adjust cursor position based on comma difference
+  const adjustment = newCommasBefore - commasBefore;
+  return Math.max(0, Math.min(newValue.length, originalCursorPos + adjustment));
+};

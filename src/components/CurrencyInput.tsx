@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { X, GripVertical } from 'lucide-react';
-import { formatNumberWithCommas, removeCommas } from '@/lib/numberUtils';
+import { formatInputNumber, removeCommas, calculateCursorPosition } from '@/lib/numberUtils';
 import CurrencyDropdown from './CurrencyDropdown';
 
 interface CurrencyInputProps {
@@ -31,31 +31,47 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleAmountChange = (value: string) => {
-    // Store cursor position before formatting
     const input = inputRef.current;
-    const cursorPosition = input?.selectionStart || 0;
+    if (!input) return;
+    
+    const cursorPosition = input.selectionStart || 0;
+    const isAtEnd = cursorPosition === value.length;
     
     // Remove commas for processing
     const cleanValue = removeCommas(value);
     
+    // Allow empty input
+    if (cleanValue === '') {
+      onAmountChange?.('');
+      return;
+    }
+    
     // Only allow numbers and decimal point
     if (!/^\d*\.?\d*$/.test(cleanValue)) return;
     
+    // Don't allow multiple decimal points
+    if ((cleanValue.match(/\./g) || []).length > 1) return;
+    
     onAmountChange?.(cleanValue);
     
-    // Restore cursor position after formatting
+    // Handle cursor positioning after formatting
     setTimeout(() => {
-      if (input) {
-        const newFormattedLength = formatNumberWithCommas(cleanValue).length;
-        const oldFormattedLength = value.length;
-        const lengthDiff = newFormattedLength - oldFormattedLength;
-        const newPosition = Math.max(0, cursorPosition + lengthDiff);
+      if (input && document.activeElement === input) {
+        const formattedValue = formatInputNumber(cleanValue, isAtEnd);
+        const newPosition = calculateCursorPosition(value, formattedValue, cursorPosition);
         input.setSelectionRange(newPosition, newPosition);
       }
     }, 0);
   };
 
-  const displayAmount = formatNumberWithCommas(amount);
+  // Format the display value based on cursor position
+  const getDisplayValue = () => {
+    if (!amount) return '';
+    const input = inputRef.current;
+    const isAtEnd = input && document.activeElement === input && 
+                   input.selectionStart === input.value.length;
+    return formatInputNumber(amount, isAtEnd);
+  };
 
   return (
     <div className="text-sm mb-6">
@@ -79,14 +95,14 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
           <Input
             ref={inputRef}
             type="text"
-            value={displayAmount}
+            value={getDisplayValue()}
             onChange={(e) => handleAmountChange(e.target.value)}
             placeholder="0.00"
             className="text-stone-950 font-inter font-semibold py-0 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full"
             style={{ fontSize: '1.25rem' }}
           />
           
-          <div className="relative h-full flex items-center w-32">
+          <div className="relative h-full flex items-center w-40">
             <CurrencyDropdown
               availableCurrencies={currencies}
               onSelect={onCurrencyChange}

@@ -154,7 +154,7 @@ const CurrencyConverter: React.FC = () => {
           </div>
 
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
               {/* Left Column - Base Currency */}
               <BaseCurrencySection
                 baseAmount={lastEditedCurrency === baseCurrency ? sourceAmount : getDisplayAmount(baseCurrency)}
@@ -163,11 +163,6 @@ const CurrencyConverter: React.FC = () => {
                 onCurrencyChange={setBaseCurrency}
                 currencies={currencies}
               />
-
-              {/* Middle Column - Conversion Arrows (only show on large screens) */}
-              <div className="hidden lg:flex items-center justify-center">
-                <ConversionArrows />
-              </div>
 
               {/* Right Column - Target Currencies */}
               <TargetCurrenciesSection

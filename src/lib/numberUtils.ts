@@ -38,9 +38,20 @@ export const formatNumberWithDecimals = (value: string | number, showDecimals: b
 };
 
 // New function to handle cursor-friendly number input
-export const formatInputNumber = (value: string, isAtEnd: boolean = false): string => {
+export const formatInputNumber = (value: string, isAtEnd: boolean = false, showDecimals: boolean = true): string => {
   // Remove all commas first
   const cleanValue = removeCommas(value);
+  
+  // If decimals are disabled, remove decimal point and everything after
+  if (!showDecimals) {
+    const noDecimalValue = cleanValue.split('.')[0];
+    const numValue = parseFloat(noDecimalValue);
+    if (isNaN(numValue)) return '0';
+    return numValue.toLocaleString('en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+  }
   
   // If cursor is at the end and user is typing, don't force decimal places
   if (isAtEnd && !cleanValue.includes('.')) {

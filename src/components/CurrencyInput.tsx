@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -47,35 +48,41 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
       return;
     }
     
-    // Only allow numbers and decimal point
-    if (!/^\d*\.?\d*$/.test(cleanValue)) return;
-    
-    // Don't allow multiple decimal points
-    if ((cleanValue.match(/\./g) || []).length > 1) return;
+    // Only allow numbers and decimal point (if decimals are enabled)
+    if (showDecimals) {
+      if (!/^\d*\.?\d*$/.test(cleanValue)) return;
+      // Don't allow multiple decimal points
+      if ((cleanValue.match(/\./g) || []).length > 1) return;
+    } else {
+      // When decimals are disabled, only allow whole numbers
+      if (!/^\d*$/.test(cleanValue)) return;
+    }
     
     onAmountChange?.(cleanValue);
     
     // Handle cursor positioning after formatting
     setTimeout(() => {
       if (input && document.activeElement === input) {
-        const formattedValue = formatInputNumber(cleanValue, isAtEnd);
+        const formattedValue = formatInputNumber(cleanValue, isAtEnd, showDecimals);
         const newPosition = calculateCursorPosition(value, formattedValue, cursorPosition);
         input.setSelectionRange(newPosition, newPosition);
       }
     }, 0);
   };
 
-  // Format the display value based on cursor position and decimal setting
+  // Format the display value based on focus state and decimal setting
   const getDisplayValue = () => {
     if (!amount) return '';
     const input = inputRef.current;
-    const isAtEnd = input && document.activeElement === input && 
-                   input.selectionStart === input.value.length;
+    const isFocused = input && document.activeElement === input;
+    const isAtEnd = isFocused && input.selectionStart === input.value.length;
     
-    if (showDecimals) {
-      return formatInputNumber(amount, isAtEnd);
+    // When focused, use input-friendly formatting
+    if (isFocused) {
+      return formatInputNumber(amount, isAtEnd, showDecimals);
     } else {
-      return formatNumberWithDecimals(amount, false);
+      // When not focused, use display formatting
+      return formatNumberWithDecimals(amount, showDecimals);
     }
   };
 

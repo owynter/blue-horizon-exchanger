@@ -56,9 +56,7 @@ const CurrencyConverter: React.FC = () => {
     return calculateCrossCurrencyConversion(sourceAmount, lastEditedCurrency, currencyCode, baseCurrency);
   };
 
-  const handleCurrencyToggle = (currencyCodes: string[]) => {
-    const currencyCode = currencyCodes[0]; // We're only handling one at a time now
-    
+  const handleCurrencyToggle = (currencyCode: string) => {
     // Check if currency already exists in target currencies
     const existingCurrency = targetCurrencies.find(tc => tc.code === currencyCode);
     

@@ -38,21 +38,10 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
   selectedCurrency
 }) => {
   const [open, setOpen] = useState(false);
-  const [selectedCurrencies, setSelectedCurrencies] = useState<string[]>([]);
 
   const handleSelect = (currencyCode: string) => {
     if (multiSelect) {
-      if (selectedCurrencies.includes(currencyCode)) {
-        // Remove currency
-        const newSelected = selectedCurrencies.filter(code => code !== currencyCode);
-        setSelectedCurrencies(newSelected);
-        onAddMultiple?.([currencyCode]); // This will trigger removal in parent
-      } else {
-        // Add currency
-        const newSelected = [...selectedCurrencies, currencyCode];
-        setSelectedCurrencies(newSelected);
-        onAddMultiple?.([currencyCode]); // This will trigger addition in parent
-      }
+      onAddMultiple?.(currencyCode);
     } else {
       onSelect?.(currencyCode);
       setOpen(false);
@@ -88,10 +77,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                   <>
                     <div className="flex items-center">
                       <Plus size={16} className="mr-2" />
-                      {selectedCurrencies.length > 0 
-                        ? `${selectedCurrencies.length} selected` 
-                        : placeholder
-                      }
+                      {placeholder}
                     </div>
                   </>
                 ) : selectedCurrencyData ? (
@@ -133,9 +119,6 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                       <span className="text-lg">{currency.flag}</span>
                       <span className="font-medium font-sora">{currency.name} ({currency.code})</span>
                     </div>
-                    {multiSelect && selectedCurrencies.includes(currency.code) && (
-                      <Check size={16} className="text-blue-600" />
-                    )}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -143,20 +126,6 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
           </Command>
         </PopoverContent>
       </Popover>
-
-      {multiSelect && selectedCurrencies.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {selectedCurrencies.map(code => {
-            const currency = availableCurrencies.find(c => c.code === code);
-            return currency ? (
-              <div key={code} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1 font-sora">
-                <span>{currency.flag}</span>
-                <span>{currency.code}</span>
-              </div>
-            ) : null;
-          })}
-        </div>
-      )}
     </div>
   );
 };

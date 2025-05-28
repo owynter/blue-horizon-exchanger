@@ -28,6 +28,10 @@ export const currencies: Currency[] = [
   { code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧' },
   { code: 'JMD', name: 'Jamaican Dollar', symbol: 'J$', flag: '🇯🇲' },
   { code: 'BRL', name: 'Brazilian Real', symbol: 'R$', flag: '🇧🇷' },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', flag: '🇨🇦' },
+  { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺' },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥', flag: '🇯🇵' },
+  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF', flag: '🇨🇭' },
 ];
 
 // USD-based exchange rates for more accurate conversions
@@ -43,6 +47,10 @@ export const usdExchangeRates: { [key: string]: number } = {
   GBP: 0.7825,
   JMD: 156.50,
   BRL: 5.15,
+  CAD: 1.35,
+  AUD: 1.52,
+  JPY: 149.80,
+  CHF: 0.89,
 };
 
 // Convert any currency to USD

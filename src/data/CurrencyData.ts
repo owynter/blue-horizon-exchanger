@@ -1,3 +1,4 @@
+import { formatNumberWithCommas } from '@/lib/numberUtils';
 
 export interface Currency {
   code: string;
@@ -43,11 +44,12 @@ export const mockExchangeRates: { [key: string]: ExchangeRates } = {
 };
 
 export const calculateConversion = (amount: string, fromCurrency: string, toCurrency: string): string => {
-  if (!amount || fromCurrency === toCurrency) return amount;
+  if (!amount || fromCurrency === toCurrency) return formatNumberWithCommas(amount);
   
-  const numAmount = parseFloat(amount);
-  if (isNaN(numAmount)) return '0';
+  const numAmount = parseFloat(amount.replace(/,/g, ''));
+  if (isNaN(numAmount)) return '0.00';
   
   const rate = mockExchangeRates[fromCurrency]?.[toCurrency] || 1;
-  return (numAmount * rate).toFixed(2);
+  const result = numAmount * rate;
+  return formatNumberWithCommas(result.toFixed(2));
 };

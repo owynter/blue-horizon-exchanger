@@ -1,3 +1,4 @@
+
 import { useRef } from 'react';
 import { removeCommas } from '@/lib/numberUtils';
 
@@ -15,6 +16,7 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
     if (!showDecimals) return null;
     
     const cleanCurrent = removeCommas(currentValue);
+    console.log('buildSmartNumber called with:', cleanCurrent, 'new input:', newInput);
     
     // Only do smart building if we're adding digits to a decimal value at the end
     if (cleanCurrent.includes('.') && /^\d+$/.test(newInput)) {
@@ -55,21 +57,33 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
     const input = inputRef.current;
     if (!input) return;
     
-    const oldValue = input.value;
+    // Get cursor position before processing
+    const cursorPosition = input.selectionStart || 0;
+    const isAtEnd = cursorPosition === value.length;
     
-    // Check if this is smart number building scenario
-    if (value.length > oldValue.length) {
-      const addedChars = value.slice(oldValue.length);
-      const smartResult = buildSmartNumber(oldValue, addedChars);
+    console.log('Cursor position:', cursorPosition, 'Value length:', value.length, 'Is at end:', isAtEnd);
+    
+    // Clean the old and new values to compare them properly
+    const oldCleanValue = removeCommas(amount);
+    const newCleanValue = removeCommas(value);
+    
+    console.log('Comparing clean values - old:', oldCleanValue, 'new:', newCleanValue);
+    
+    // Check if this is smart number building scenario (typing at the end)
+    if (isAtEnd && newCleanValue.length > oldCleanValue.length) {
+      const addedChars = newCleanValue.slice(oldCleanValue.length);
+      console.log('Added chars at end:', addedChars);
+      
+      const smartResult = buildSmartNumber(oldCleanValue, addedChars);
       if (smartResult) {
         console.log('Smart number building result:', smartResult);
-        onAmountChange?.(removeCommas(smartResult));
+        onAmountChange?.(smartResult);
         return;
       }
     }
     
     // Remove commas for processing
-    const cleanValue = removeCommas(value);
+    const cleanValue = newCleanValue;
     console.log('useCurrencyInput handleAmountChange cleaned value:', cleanValue);
     
     // Allow empty input

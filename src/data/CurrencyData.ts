@@ -1,3 +1,4 @@
+
 import { formatNumberWithCommas } from '@/lib/numberUtils';
 
 export interface Currency {
@@ -59,6 +60,7 @@ export const convertToUSD = (amount: string, fromCurrency: string): number => {
   if (isNaN(numAmount) || !usdExchangeRates[fromCurrency]) return 0;
   
   if (fromCurrency === 'USD') return numAmount;
+  // To convert TO USD, we divide by the exchange rate
   return numAmount / usdExchangeRates[fromCurrency];
 };
 
@@ -70,6 +72,7 @@ export const convertFromUSD = (usdAmount: number, toCurrency: string): string =>
     return formatNumberWithCommas(usdAmount.toFixed(2));
   }
   
+  // To convert FROM USD, we multiply by the exchange rate
   const result = usdAmount * usdExchangeRates[toCurrency];
   return formatNumberWithCommas(result.toFixed(2));
 };

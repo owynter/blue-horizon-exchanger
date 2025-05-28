@@ -54,12 +54,10 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setTargetCurrencies((items: TargetCurrency[]) => {
-        const oldIndex = items.findIndex(item => item.id === active.id);
-        const newIndex = items.findIndex(item => item.id === over.id);
-
-        return arrayMove(items, oldIndex, newIndex);
-      });
+      const oldIndex = targetCurrencies.findIndex(item => item.id === active.id);
+      const newIndex = targetCurrencies.findIndex(item => item.id === over.id);
+      const reorderedCurrencies = arrayMove(targetCurrencies, oldIndex, newIndex);
+      setTargetCurrencies(reorderedCurrencies);
     }
   };
 

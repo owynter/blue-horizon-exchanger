@@ -1,3 +1,4 @@
+
 import { formatNumberWithCommas } from '@/lib/numberUtils';
 
 export interface Currency {
@@ -49,7 +50,39 @@ export const calculateConversion = (amount: string, fromCurrency: string, toCurr
   const numAmount = parseFloat(amount.replace(/,/g, ''));
   if (isNaN(numAmount)) return '0.00';
   
-  const rate = mockExchangeRates[fromCurrency]?.[toCurrency] || 1;
-  const result = numAmount * rate;
-  return formatNumberWithCommas(result.toFixed(2));
+  // Use direct conversion rate if available
+  const directRate = mockExchangeRates[fromCurrency]?.[toCurrency];
+  if (directRate) {
+    const result = numAmount * directRate;
+    return formatNumberWithCommas(result.toFixed(6)); // Use more precision for intermediate calculations
+  }
+  
+  return '0.00';
+};
+
+// New function for more accurate cross-currency conversion
+export const calculateCrossCurrencyConversion = (amount: string, fromCurrency: string, toCurrency: string, baseCurrency: string): string => {
+  if (!amount || fromCurrency === toCurrency) return formatNumberWithCommas(amount);
+  
+  const numAmount = parseFloat(amount.replace(/,/g, ''));
+  if (isNaN(numAmount)) return '0.00';
+  
+  // Try direct conversion first
+  const directRate = mockExchangeRates[fromCurrency]?.[toCurrency];
+  if (directRate) {
+    const result = numAmount * directRate;
+    return formatNumberWithCommas(result.toFixed(2));
+  }
+  
+  // Fallback to conversion through base currency with higher precision
+  const toBaseRate = mockExchangeRates[fromCurrency]?.[baseCurrency];
+  const fromBaseRate = mockExchangeRates[baseCurrency]?.[toCurrency];
+  
+  if (toBaseRate && fromBaseRate) {
+    const baseAmount = numAmount * toBaseRate;
+    const result = baseAmount * fromBaseRate;
+    return formatNumberWithCommas(result.toFixed(2));
+  }
+  
+  return '0.00';
 };

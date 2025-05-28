@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -27,10 +28,31 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   currencies,
   dragHandleProps
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const handleAmountChange = (value: string) => {
-    // Remove commas for processing, but keep the raw number
+    // Store cursor position before formatting
+    const input = inputRef.current;
+    const cursorPosition = input?.selectionStart || 0;
+    
+    // Remove commas for processing
     const cleanValue = removeCommas(value);
+    
+    // Only allow numbers and decimal point
+    if (!/^\d*\.?\d*$/.test(cleanValue)) return;
+    
     onAmountChange?.(cleanValue);
+    
+    // Restore cursor position after formatting
+    setTimeout(() => {
+      if (input) {
+        const newFormattedLength = formatNumberWithCommas(cleanValue).length;
+        const oldFormattedLength = value.length;
+        const lengthDiff = newFormattedLength - oldFormattedLength;
+        const newPosition = Math.max(0, cursorPosition + lengthDiff);
+        input.setSelectionRange(newPosition, newPosition);
+      }
+    }, 0);
   };
 
   const displayAmount = formatNumberWithCommas(amount);
@@ -55,6 +77,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
         {/* Main Input Container */}
         <div className="flex w-full rounded-xl border border-blue-200 overflow-hidden flex-1 h-full items-center">
           <Input
+            ref={inputRef}
             type="text"
             value={displayAmount}
             onChange={(e) => handleAmountChange(e.target.value)}
@@ -63,13 +86,13 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
             style={{ fontSize: '1.25rem' }}
           />
           
-          <div className="relative h-full flex items-center w-40">
+          <div className="relative h-full flex items-center w-32">
             <CurrencyDropdown
               availableCurrencies={currencies}
               onSelect={onCurrencyChange}
               selectedCurrency={currency}
               placeholder={isBase ? 'Select your base currency' : 'Change currency'}
-              triggerClassName="w-full h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4"
+              triggerClassName="w-full h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-2 text-sm"
             />
           </div>
         </div>

@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import BaseCurrencySection from './BaseCurrencySection';
 import TargetCurrenciesSection from './TargetCurrenciesSection';
-import { currencies, calculateConversion, TargetCurrency } from '@/data/CurrencyData';
+import { currencies, calculateConversion, calculateCrossCurrencyConversion, TargetCurrency } from '@/data/CurrencyData';
 
 const CurrencyConverter: React.FC = () => {
   const [baseAmount, setBaseAmount] = useState('1000');
@@ -39,11 +38,8 @@ const CurrencyConverter: React.FC = () => {
       return sourceAmount;
     }
     
-    if (lastEditedCurrency === baseCurrency) {
-      return calculateConversion(sourceAmount, baseCurrency, currencyCode);
-    } else {
-      return calculateConversion(sourceAmount, lastEditedCurrency, currencyCode);
-    }
+    // Use the more accurate cross-currency conversion
+    return calculateCrossCurrencyConversion(sourceAmount, lastEditedCurrency, currencyCode, baseCurrency);
   };
 
   const addMultipleCurrencies = (currencyCodes: string[]) => {

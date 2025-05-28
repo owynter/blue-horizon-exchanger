@@ -27,10 +27,12 @@ export const removeCommas = (value: string): string => {
 export const formatNumberWithDecimals = (value: string | number, showDecimals: boolean = true): string => {
   if (!value) return '0';
   
-  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  // FIXED: Remove commas first before parsing, just like other functions
+  const cleanValue = typeof value === 'string' ? removeCommas(value) : value.toString();
+  const numValue = typeof value === 'string' ? parseFloat(cleanValue) : value;
   if (isNaN(numValue)) return '0';
   
-  console.log('formatNumberWithDecimals input:', value, 'parsed:', numValue, 'showDecimals:', showDecimals);
+  console.log('formatNumberWithDecimals input:', value, 'cleaned:', cleanValue, 'parsed:', numValue, 'showDecimals:', showDecimals);
   
   if (showDecimals) {
     const formatted = new Intl.NumberFormat('en-US', {
@@ -85,10 +87,14 @@ export const formatInputNumber = (value: string, isAtEnd: boolean = false, showD
     return formatted;
   }
   
-  // For other cases, use standard formatting
-  const result = formatNumberWithCommas(cleanValue);
-  console.log('formatInputNumber (standard) output:', result);
-  return result;
+  // For other cases, use standard formatting with proper comma removal
+  const formatted = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+    useGrouping: true
+  }).format(numValue);
+  console.log('formatInputNumber (standard) output:', formatted);
+  return formatted;
 };
 
 // Function to calculate cursor position after formatting

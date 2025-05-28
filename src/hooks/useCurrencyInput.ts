@@ -75,9 +75,36 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
   const handleAmountChange = (value: string) => {
     console.log('handleAmountChange called with:', value);
     
-    // Mark that user has started typing
-    if (isFocused && !hasStartedTyping) {
-      console.log('User started typing');
+    // Check if this is the first keystroke after focus
+    if (isFocused && !hasStartedTyping && originalValue && value !== originalValue.replace(/,/g, '')) {
+      console.log('First keystroke detected, checking if we should clear');
+      
+      // Get the input element to check selection
+      const input = inputRef.current;
+      const hasSelection = input && input.selectionStart !== input.selectionEnd;
+      
+      console.log('Has selection:', hasSelection);
+      
+      if (!hasSelection) {
+        // No text is selected, this is a "clear and start fresh" action
+        // Extract only the new character(s) that were typed
+        const cleanOriginal = originalValue.replace(/,/g, '');
+        
+        // If the new value is longer and contains the original, extract just the new part
+        if (value.length > cleanOriginal.length && value.includes(cleanOriginal)) {
+          // Find what was added and use only that
+          const newChar = value.replace(cleanOriginal, '');
+          console.log('Extracted new character:', newChar);
+          value = newChar;
+        } else if (value.length <= cleanOriginal.length) {
+          // This might be a backspace or similar, treat as new value
+          console.log('Using value as-is (backspace or replacement):', value);
+        }
+      }
+      
+      setHasStartedTyping(true);
+    } else if (isFocused && !hasStartedTyping) {
+      // Mark that user has started typing for subsequent changes
       setHasStartedTyping(true);
     }
     
@@ -88,21 +115,12 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
       return;
     }
     
-    // Sanitize the input instead of rejecting it
+    // Sanitize the input
     const sanitized = sanitizeInput(value);
     console.log('Sanitized result:', sanitized);
     
-    // Only call onAmountChange if the sanitized value is different from input
-    // or if it's a valid number (to allow intermediate states during typing)
-    if (sanitized !== value) {
-      // Input was modified during sanitization, use the sanitized version
-      console.log('Input was sanitized, using sanitized version');
-      onAmountChange?.(sanitized);
-    } else {
-      // Input was already clean, use as-is
-      console.log('Input was already clean, using as-is');
-      onAmountChange?.(value);
-    }
+    // Always use the sanitized version
+    onAmountChange?.(sanitized);
   };
 
   return {

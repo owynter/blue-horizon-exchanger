@@ -48,14 +48,14 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
       return;
     }
     
-    // Only allow numbers and decimal point (if decimals are enabled)
+    // Input validation based on decimal setting
     if (showDecimals) {
+      // Allow numbers and one decimal point
       if (!/^\d*\.?\d*$/.test(cleanValue)) return;
-      // Don't allow multiple decimal points
       if ((cleanValue.match(/\./g) || []).length > 1) return;
     } else {
-      // When decimals are disabled, only allow whole numbers
-      if (!/^\d*$/.test(cleanValue)) return;
+      // Allow only whole numbers (no decimal point)
+      if (!/^\d+$/.test(cleanValue)) return;
     }
     
     onAmountChange?.(cleanValue);
@@ -111,7 +111,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
             type="text"
             value={getDisplayValue()}
             onChange={(e) => handleAmountChange(e.target.value)}
-            placeholder="0.00"
+            placeholder={showDecimals ? "0.00" : "0"}
             className="text-stone-950 font-inter font-semibold py-0 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full"
             style={{ fontSize: '1.25rem' }}
           />

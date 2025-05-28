@@ -42,12 +42,14 @@ export const formatInputNumber = (value: string, isAtEnd: boolean = false, showD
   // Remove all commas first
   const cleanValue = removeCommas(value);
   
-  // If decimals are disabled, remove decimal point and everything after
+  if (!cleanValue || cleanValue === '0') return showDecimals ? '0' : '0';
+  
+  const numValue = parseFloat(cleanValue);
+  if (isNaN(numValue)) return showDecimals ? '0' : '0';
+  
+  // If decimals are disabled, format as whole number with commas
   if (!showDecimals) {
-    const noDecimalValue = cleanValue.split('.')[0];
-    const numValue = parseFloat(noDecimalValue);
-    if (isNaN(numValue)) return '0';
-    return numValue.toLocaleString('en-US', {
+    return Math.floor(numValue).toLocaleString('en-US', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     });
@@ -55,8 +57,6 @@ export const formatInputNumber = (value: string, isAtEnd: boolean = false, showD
   
   // If cursor is at the end and user is typing, don't force decimal places
   if (isAtEnd && !cleanValue.includes('.')) {
-    const numValue = parseFloat(cleanValue);
-    if (isNaN(numValue)) return '0';
     return numValue.toLocaleString('en-US');
   }
   

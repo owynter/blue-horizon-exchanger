@@ -7,22 +7,20 @@ import { TargetCurrency, Currency } from '@/data/CurrencyData';
 
 interface SortableCurrencyInputProps {
   targetCurrency: TargetCurrency;
-  baseAmount: string;
-  baseCurrency: string;
+  displayAmount: string;
+  onAmountChange: (id: string, amount: string) => void;
   onCurrencyChange: (id: string, newCode: string) => void;
   onRemove: (id: string) => void;
   currencies: Currency[];
-  calculateConversion: (amount: string, from: string, to: string) => string;
 }
 
 const SortableCurrencyInput: React.FC<SortableCurrencyInputProps> = ({
   targetCurrency,
-  baseAmount,
-  baseCurrency,
+  displayAmount,
+  onAmountChange,
   onCurrencyChange,
   onRemove,
-  currencies,
-  calculateConversion
+  currencies
 }) => {
   const {
     attributes,
@@ -40,8 +38,9 @@ const SortableCurrencyInput: React.FC<SortableCurrencyInputProps> = ({
   return (
     <div ref={setNodeRef} style={style}>
       <CurrencyInput
-        amount={calculateConversion(baseAmount, baseCurrency, targetCurrency.code)}
+        amount={displayAmount}
         currency={targetCurrency.code}
+        onAmountChange={(amount) => onAmountChange(targetCurrency.id, amount)}
         onCurrencyChange={(newCode) => onCurrencyChange(targetCurrency.id, newCode)}
         onRemove={() => onRemove(targetCurrency.id)}
         currencies={currencies}

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
   DndContext,
@@ -28,19 +29,20 @@ interface TargetCurrenciesSectionProps {
   calculateConversion: (amount: string, from: string, to: string) => string;
   availableCurrencies: Currency[];
   onAddMultipleCurrencies: (currencyCodes: string[]) => void;
+  getDisplayAmount: (currencyCode: string) => string;
+  onTargetAmountChange: (targetId: string, amount: string) => void;
 }
 
 const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
   targetCurrencies,
   setTargetCurrencies,
-  baseAmount,
-  baseCurrency,
   onCurrencyChange,
   onRemove,
   currencies,
-  calculateConversion,
   availableCurrencies,
-  onAddMultipleCurrencies
+  onAddMultipleCurrencies,
+  getDisplayAmount,
+  onTargetAmountChange
 }) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -83,12 +85,11 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
                 <SortableCurrencyInput
                   key={targetCurrency.id}
                   targetCurrency={targetCurrency}
-                  baseAmount={baseAmount}
-                  baseCurrency={baseCurrency}
+                  displayAmount={getDisplayAmount(targetCurrency.code)}
+                  onAmountChange={onTargetAmountChange}
                   onCurrencyChange={onCurrencyChange}
                   onRemove={onRemove}
                   currencies={currencies}
-                  calculateConversion={calculateConversion}
                 />
               ))}
             </div>

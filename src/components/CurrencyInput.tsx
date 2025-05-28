@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
@@ -34,7 +33,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     onAmountChange?.(cleanValue);
   };
 
-  const displayAmount = isBase ? formatNumberWithCommas(amount) : amount;
+  const displayAmount = formatNumberWithCommas(amount);
 
   return (
     <div className="text-sm mb-6">
@@ -62,14 +61,13 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
             placeholder="0.00"
             className="text-stone-950 font-inter font-semibold py-0 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full"
             style={{ fontSize: '1.25rem' }}
-            readOnly={!isBase}
           />
           
-          <div className="relative h-full flex items-center">
+          <div className="relative h-full flex items-center flex-1">
             <Select value={currency} onValueChange={onCurrencyChange}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SelectTrigger className="w-40 h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4">
+                  <SelectTrigger className="w-full h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4">
                     <SelectValue>
                       <div className="flex items-center gap-3">
                         <span style={{ fontSize: '1.5rem' }}>{currencies.find(c => c.code === currency)?.flag}</span>
@@ -82,12 +80,12 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
                   <p>{isBase ? 'Select your base currency' : 'Change currency'}</p>
                 </TooltipContent>
               </Tooltip>
-              <SelectContent className="bg-white border-blue-200 shadow-xl z-50">
+              <SelectContent className="bg-white border-blue-200 shadow-xl z-50 min-w-[300px]">
                 {currencies.map((curr) => (
                   <SelectItem key={curr.code} value={curr.code} className="hover:bg-blue-50">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 w-full">
                       <span style={{ fontSize: '1.5rem' }}>{curr.flag}</span>
-                      <span className="font-medium font-sora" style={{ fontSize: '1.125rem' }}>{curr.code}</span>
+                      <span className="font-medium font-sora" style={{ fontSize: '1rem' }}>{curr.name} ({curr.code})</span>
                     </div>
                   </SelectItem>
                 ))}

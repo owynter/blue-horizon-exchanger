@@ -13,6 +13,38 @@ const CurrencyConverter: React.FC = () => {
     { id: '1', code: 'EUR' },
     { id: '2', code: 'GBP' },
   ]);
+  const [lastEditedCurrency, setLastEditedCurrency] = useState('USD');
+  const [sourceAmount, setSourceAmount] = useState('1000');
+
+  const handleBaseAmountChange = (amount: string) => {
+    setBaseAmount(amount);
+    setSourceAmount(amount);
+    setLastEditedCurrency(baseCurrency);
+  };
+
+  const handleTargetAmountChange = (targetId: string, amount: string) => {
+    const targetCurrency = targetCurrencies.find(tc => tc.id === targetId);
+    if (targetCurrency) {
+      setSourceAmount(amount);
+      setLastEditedCurrency(targetCurrency.code);
+      
+      // Calculate and update base amount
+      const newBaseAmount = calculateConversion(amount, targetCurrency.code, baseCurrency);
+      setBaseAmount(newBaseAmount.replace(/,/g, ''));
+    }
+  };
+
+  const getDisplayAmount = (currencyCode: string) => {
+    if (currencyCode === lastEditedCurrency) {
+      return sourceAmount;
+    }
+    
+    if (lastEditedCurrency === baseCurrency) {
+      return calculateConversion(sourceAmount, baseCurrency, currencyCode);
+    } else {
+      return calculateConversion(sourceAmount, lastEditedCurrency, currencyCode);
+    }
+  };
 
   const addMultipleCurrencies = (currencyCodes: string[]) => {
     const validCodes = currencyCodes.filter(code => {
@@ -105,9 +137,9 @@ const CurrencyConverter: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Left Column - Base Currency */}
               <BaseCurrencySection
-                baseAmount={baseAmount}
+                baseAmount={lastEditedCurrency === baseCurrency ? sourceAmount : getDisplayAmount(baseCurrency)}
                 baseCurrency={baseCurrency}
-                onAmountChange={setBaseAmount}
+                onAmountChange={handleBaseAmountChange}
                 onCurrencyChange={setBaseCurrency}
                 currencies={currencies}
               />
@@ -124,6 +156,8 @@ const CurrencyConverter: React.FC = () => {
                 calculateConversion={calculateConversion}
                 availableCurrencies={availableCurrencies}
                 onAddMultipleCurrencies={addMultipleCurrencies}
+                getDisplayAmount={getDisplayAmount}
+                onTargetAmountChange={handleTargetAmountChange}
               />
             </div>
           </div>

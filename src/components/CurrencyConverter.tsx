@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { toast } from '@/hooks/use-toast';
 import BaseCurrencySection from './BaseCurrencySection';
@@ -89,7 +90,7 @@ const CurrencyConverter: React.FC = () => {
         <p className="text-blue-600 font-sora">Convert between multiple currencies in real-time</p>
       </div>
 
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-6 shadow-lg">
+      <div className="bg-white rounded-2xl p-6 shadow-lg">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Column - Base Currency */}
           <BaseCurrencySection

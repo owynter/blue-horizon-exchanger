@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
@@ -45,19 +46,19 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
         )}
         
         {/* Main Input Container */}
-        <div className="flex w-full rounded-xl border border-blue-200 overflow-hidden flex-1 h-full">
+        <div className="flex w-full rounded-xl border border-blue-200 overflow-hidden flex-1 h-full items-center">
           <Input
             type="text"
             value={displayAmount}
             onChange={(e) => handleAmountChange(e.target.value)}
             placeholder="0.00"
-            className="text-stone-950 text-number font-inter font-semibold py-3 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full flex items-center"
+            className="text-stone-950 text-number font-inter font-semibold py-0 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full"
             readOnly={!isBase}
           />
           
-          <div className="relative h-full">
+          <div className="relative h-full flex items-center">
             <Select value={currency} onValueChange={onCurrencyChange}>
-              <SelectTrigger className="w-32 h-full border-0 rounded-none bg-transparent [&>svg]:hidden">
+              <SelectTrigger className="w-32 h-full border-0 rounded-none bg-transparent [&>svg]:hidden flex items-center">
                 <SelectValue>
                   <div className="flex items-center gap-2">
                     <span className="text-lg">{currencies.find(c => c.code === currency)?.flag}</span>

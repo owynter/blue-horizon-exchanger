@@ -38,14 +38,14 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
       />
       
       {/* Compact Decimal Toggle */}
-      <div className="flex items-center justify-between py-2">
+      <div className="flex items-center gap-3 py-2">
         <span className="text-sm font-semibold text-blue-900 font-sora">Show decimals</span>
         <Tooltip>
           <TooltipTrigger asChild>
             <Switch
               checked={showDecimals}
               onCheckedChange={onDecimalToggle}
-              className="data-[state=unchecked]:bg-blue-200 data-[state=checked]:bg-blue-600"
+              className="data-[state=unchecked]:bg-blue-200 data-[state=checked]:bg-blue-600 h-1.5 w-3 [&>span]:h-1 [&>span]:w-1 [&>span]:data-[state=checked]:translate-x-1.5"
             />
           </TooltipTrigger>
           <TooltipContent>

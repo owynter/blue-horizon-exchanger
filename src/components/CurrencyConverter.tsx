@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import BaseCurrencySection from './BaseCurrencySection';
 import TargetCurrenciesSection from './TargetCurrenciesSection';
 import { currencies, calculateConversion, calculateCrossCurrencyConversion, TargetCurrency } from '@/data/CurrencyData';
+import { generateRealisticTimestamp, formatRelativeTime } from '@/utils/timestampUtils';
 
 const MAX_CURRENCIES = 10;
 
@@ -16,6 +17,16 @@ const CurrencyConverter: React.FC = () => {
   ]);
   const [lastEditedCurrency, setLastEditedCurrency] = useState('USD');
   const [sourceAmount, setSourceAmount] = useState('1000');
+  const [lastUpdated, setLastUpdated] = useState<Date>(generateRealisticTimestamp());
+
+  // Update timestamp every hour to simulate rate updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLastUpdated(generateRealisticTimestamp());
+    }, 60 * 60 * 1000); // Every hour
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleBaseAmountChange = (amount: string) => {
     setBaseAmount(amount);
@@ -139,6 +150,9 @@ const CurrencyConverter: React.FC = () => {
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-sky-400 mb-4 font-sora">Currency converter</h1>
             <p className="text-blue-200 font-sora">Convert between multiple currencies in real-time</p>
+            <p className="text-xs text-blue-300/80 mt-2 font-inter">
+              Rates last updated: {formatRelativeTime(lastUpdated)}
+            </p>
           </div>
 
           <div className="bg-white rounded-2xl p-6 shadow-lg">

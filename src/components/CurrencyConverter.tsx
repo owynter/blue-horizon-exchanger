@@ -138,59 +138,49 @@ const CurrencyConverter: React.FC = () => {
 
   return (
     <TooltipProvider>
-      <div className="relative overflow-hidden">
-        {/* Abstract texture background */}
-        <div className="absolute inset-0 opacity-15">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-500 to-pink-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-gradient-to-t from-yellow-500 to-orange-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-2000"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="text-center mb-8">
+          {/* Main title - using Sora font for primary headings */}
+          <h1 className="text-4xl font-bold text-sky-400 mb-4 font-sora">Currency converter</h1>
+          {/* Subtitle - using Sora font for secondary headings */}
+          <p className="text-blue-200 font-sora">Convert between multiple currencies in real-time</p>
+          {/* Last updated info - using Inter font for body text */}
+          <p className="text-xs text-blue-300/80 mt-2 font-inter">
+            Rates last updated: {formatRelativeTime(lastUpdated)}
+          </p>
         </div>
-        
-        <div className="max-w-6xl mx-auto p-6 relative z-10">
-          <div className="text-center mb-8">
-            {/* Main title - using Sora font for primary headings */}
-            <h1 className="text-4xl font-bold text-sky-400 mb-4 font-sora">Currency converter</h1>
-            {/* Subtitle - using Sora font for secondary headings */}
-            <p className="text-blue-200 font-sora">Convert between multiple currencies in real-time</p>
-            {/* Last updated info - using Inter font for body text */}
-            <p className="text-xs text-blue-300/80 mt-2 font-inter">
-              Rates last updated: {formatRelativeTime(lastUpdated)}
-            </p>
-          </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-              {/* Left Column - Base Currency */}
-              <div>
-                <BaseCurrencySection
-                  baseAmount={lastEditedCurrency === baseCurrency ? sourceAmount : getDisplayAmount(baseCurrency)}
-                  baseCurrency={baseCurrency}
-                  onAmountChange={handleBaseAmountChange}
-                  onCurrencyChange={setBaseCurrency}
-                  currencies={currencies}
-                  showDecimals={showDecimals}
-                  onDecimalToggle={setShowDecimals}
-                />
-              </div>
-
-              {/* Right Column - Target Currencies */}
-              <TargetCurrenciesSection
-                targetCurrencies={targetCurrencies}
-                setTargetCurrencies={setTargetCurrencies}
-                baseAmount={baseAmount}
+        <div className="bg-white rounded-2xl p-6 shadow-lg">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            {/* Left Column - Base Currency */}
+            <div>
+              <BaseCurrencySection
+                baseAmount={lastEditedCurrency === baseCurrency ? sourceAmount : getDisplayAmount(baseCurrency)}
                 baseCurrency={baseCurrency}
-                onCurrencyChange={updateTargetCurrency}
-                onRemove={removeCurrency}
+                onAmountChange={handleBaseAmountChange}
+                onCurrencyChange={setBaseCurrency}
                 currencies={currencies}
-                calculateConversion={calculateConversion}
-                availableCurrencies={availableCurrencies}
-                onAddMultipleCurrencies={handleCurrencyToggle}
-                getDisplayAmount={getDisplayAmount}
-                onTargetAmountChange={handleTargetAmountChange}
                 showDecimals={showDecimals}
+                onDecimalToggle={setShowDecimals}
               />
             </div>
+
+            {/* Right Column - Target Currencies */}
+            <TargetCurrenciesSection
+              targetCurrencies={targetCurrencies}
+              setTargetCurrencies={setTargetCurrencies}
+              baseAmount={baseAmount}
+              baseCurrency={baseCurrency}
+              onCurrencyChange={updateTargetCurrency}
+              onRemove={removeCurrency}
+              currencies={currencies}
+              calculateConversion={calculateConversion}
+              availableCurrencies={availableCurrencies}
+              onAddMultipleCurrencies={handleCurrencyToggle}
+              getDisplayAmount={getDisplayAmount}
+              onTargetAmountChange={handleTargetAmountChange}
+              showDecimals={showDecimals}
+            />
           </div>
         </div>
       </div>

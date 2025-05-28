@@ -1,6 +1,8 @@
 
 import React from 'react';
 import CurrencyInput from './CurrencyInput';
+import { Switch } from '@/components/ui/switch';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Currency } from '@/data/CurrencyData';
 
 interface BaseCurrencySectionProps {
@@ -10,6 +12,7 @@ interface BaseCurrencySectionProps {
   onCurrencyChange: (currency: string) => void;
   currencies: Currency[];
   showDecimals: boolean;
+  onDecimalToggle: (checked: boolean) => void;
 }
 
 const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
@@ -18,7 +21,8 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
   onAmountChange,
   onCurrencyChange,
   currencies,
-  showDecimals
+  showDecimals,
+  onDecimalToggle
 }) => {
   return (
     <div className="space-y-6">
@@ -32,6 +36,22 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
         currencies={currencies}
         showDecimals={showDecimals}
       />
+      
+      {/* Compact Decimal Toggle */}
+      <div className="flex items-center justify-between py-2">
+        <span className="text-sm font-medium text-blue-900">Show decimals</span>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Switch
+              checked={showDecimals}
+              onCheckedChange={onDecimalToggle}
+            />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Toggle to show whole numbers only</p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
     </div>
   );
 };

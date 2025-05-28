@@ -167,19 +167,8 @@ const CurrencyConverter: React.FC = () => {
                   onCurrencyChange={setBaseCurrency}
                   currencies={currencies}
                   showDecimals={showDecimals}
+                  onDecimalToggle={setShowDecimals}
                 />
-                
-                {/* Decimal Toggle */}
-                <div className="flex items-center justify-between p-4 bg-blue-50 rounded-xl border border-blue-200 mt-4">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium text-blue-900">Show decimals</span>
-                    <span className="text-xs text-blue-600">Toggle to show whole numbers only</span>
-                  </div>
-                  <Switch
-                    checked={showDecimals}
-                    onCheckedChange={setShowDecimals}
-                  />
-                </div>
               </div>
 
               {/* Right Column - Target Currencies */}

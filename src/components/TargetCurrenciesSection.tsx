@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   DndContext,
@@ -65,7 +64,7 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
     <div className="space-y-6">
       {/* Converted To Heading - only show when there are target currencies */}
       {targetCurrencies.length > 0 && (
-        <h3 className="text-lg font-semibold text-blue-900 mb-4">Converted To</h3>
+        <h3 className="text-lg font-semibold text-blue-900 mb-4 font-sora">Converted To</h3>
       )}
 
       {/* Target Currencies List with Drag and Drop */}

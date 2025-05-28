@@ -36,7 +36,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
 
   return (
     <div className="text-sm mb-6">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 h-16">
         {/* Drag Handle - only for non-base currencies */}
         {!isBase && (
           <div {...dragHandleProps} className="cursor-move text-blue-400 hover:text-blue-600 flex-shrink-0">
@@ -45,23 +45,23 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
         )}
         
         {/* Main Input Container */}
-        <div className="flex w-full rounded-xl border border-blue-200 overflow-hidden flex-1">
+        <div className="flex w-full rounded-xl border border-blue-200 overflow-hidden flex-1 h-full">
           <Input
             type="text"
             value={displayAmount}
             onChange={(e) => handleAmountChange(e.target.value)}
             placeholder="0.00"
-            className="text-stone-950 text-xl font-semibold py-3 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0"
+            className="text-stone-950 text-number font-inter font-semibold py-3 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full flex items-center"
             readOnly={!isBase}
           />
           
-          <div className="relative">
+          <div className="relative h-full">
             <Select value={currency} onValueChange={onCurrencyChange}>
-              <SelectTrigger className="w-32 h-16 border-0 rounded-none bg-transparent [&>svg]:hidden">
+              <SelectTrigger className="w-32 h-full border-0 rounded-none bg-transparent [&>svg]:hidden">
                 <SelectValue>
                   <div className="flex items-center gap-2">
                     <span className="text-lg">{currencies.find(c => c.code === currency)?.flag}</span>
-                    <span className="font-semibold text-stone-950">{currency}</span>
+                    <span className="font-semibold text-stone-950 font-sora">{currency}</span>
                   </div>
                 </SelectValue>
               </SelectTrigger>
@@ -70,7 +70,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
                   <SelectItem key={curr.code} value={curr.code} className="hover:bg-blue-50">
                     <div className="flex items-center gap-2">
                       <span className="text-lg">{curr.flag}</span>
-                      <span className="font-medium">{curr.code}</span>
+                      <span className="font-medium font-sora">{curr.code}</span>
                     </div>
                   </SelectItem>
                 ))}

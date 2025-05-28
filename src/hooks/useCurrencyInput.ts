@@ -12,20 +12,26 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Enhanced smart number building for decimal shifting
-  const buildSmartNumber = (currentValue: string, newInput: string): string | null => {
-    if (!showDecimals) return null;
+  const buildSmartNumber = (currentValue: string, newInput: string, cursorPos: number): { result: string | null, newCursorPos?: number } => {
+    if (!showDecimals) return { result: null };
     
     const cleanCurrent = removeCommas(currentValue);
-    console.log('buildSmartNumber called with:', cleanCurrent, 'new input:', newInput);
+    console.log('buildSmartNumber called with:', cleanCurrent, 'new input:', newInput, 'cursor pos:', cursorPos);
     
-    // Only do smart building if we're adding digits to a decimal value at the end
+    // Only do smart building if we're adding digits to a decimal value
     if (cleanCurrent.includes('.') && /^\d+$/.test(newInput)) {
       const parts = cleanCurrent.split('.');
       const wholePart = parts[0];
       const decimalPart = parts[1] || '';
       
-      // Handle any number with exactly 2 decimal places
-      if (decimalPart.length === 2) {
+      // Find the decimal point position in the formatted value
+      const formattedValue = currentValue;
+      const decimalPointPos = formattedValue.indexOf('.');
+      
+      console.log('Decimal point position:', decimalPointPos, 'Cursor position:', cursorPos);
+      
+      // Check if cursor is in the decimal area (after decimal point)
+      if (cursorPos > decimalPointPos && decimalPart.length === 2) {
         // Combine all digits: whole part + decimal part + new input
         const allDigits = wholePart + decimalPart + newInput;
         
@@ -35,20 +41,25 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
         
         const result = `${newWholePart}.${newDecimalPart}`;
         console.log('Decimal shifting:', cleanCurrent, '+', newInput, '->', result);
-        return result;
+        
+        // Calculate new cursor position (should stay at end of input)
+        const newCursorPos = result.length;
+        
+        return { result, newCursorPos };
       }
       
-      // For "0.00" + new digits, shift left and add new digit (existing behavior)
-      if (wholePart === '0' && decimalPart.length === 2) {
-        const newDigits = newInput;
-        const allDigits = decimalPart + newDigits;
-        const newWhole = allDigits.slice(0, -2) || '0';
-        const newDecimals = allDigits.slice(-2);
-        return `${newWhole}.${newDecimals}`;
+      // Handle typing at the very end with 2 decimal places
+      if (cursorPos >= formattedValue.length && decimalPart.length === 2) {
+        const allDigits = wholePart + decimalPart + newInput;
+        const newDecimalPart = allDigits.slice(-2);
+        const newWholePart = allDigits.slice(0, -2) || '0';
+        const result = `${newWholePart}.${newDecimalPart}`;
+        
+        return { result, newCursorPos: result.length };
       }
     }
     
-    return null;
+    return { result: null };
   };
 
   const handleAmountChange = (value: string) => {
@@ -69,15 +80,22 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
     
     console.log('Comparing clean values - old:', oldCleanValue, 'new:', newCleanValue);
     
-    // Check if this is smart number building scenario (typing at the end)
-    if (isAtEnd && newCleanValue.length > oldCleanValue.length) {
+    // Check if this is smart number building scenario (adding digits)
+    if (newCleanValue.length > oldCleanValue.length) {
       const addedChars = newCleanValue.slice(oldCleanValue.length);
-      console.log('Added chars at end:', addedChars);
+      console.log('Added chars:', addedChars);
       
-      const smartResult = buildSmartNumber(oldCleanValue, addedChars);
-      if (smartResult) {
-        console.log('Smart number building result:', smartResult);
-        onAmountChange?.(smartResult);
+      const smartResult = buildSmartNumber(amount, addedChars, cursorPosition);
+      if (smartResult.result) {
+        console.log('Smart number building result:', smartResult.result);
+        onAmountChange?.(smartResult.result);
+        
+        // Set cursor position after the state update
+        setTimeout(() => {
+          if (input && smartResult.newCursorPos !== undefined) {
+            input.setSelectionRange(smartResult.newCursorPos, smartResult.newCursorPos);
+          }
+        }, 0);
         return;
       }
     }
@@ -94,6 +112,15 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
     
     // Input validation
     if (showDecimals) {
+      // Prevent more than 2 decimal places
+      if (cleanValue.includes('.')) {
+        const parts = cleanValue.split('.');
+        if (parts[1] && parts[1].length > 2) {
+          console.log('Preventing more than 2 decimal places');
+          return;
+        }
+      }
+      
       if (!/^\d*\.?\d*$/.test(cleanValue) || (cleanValue.match(/\./g) || []).length > 1) {
         return;
       }

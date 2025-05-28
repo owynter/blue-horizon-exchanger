@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -130,7 +131,7 @@ const CurrencyConverter: React.FC = () => {
   };
 
   const availableCurrencies = currencies.filter(c => 
-    c.code !== baseCurrency
+    c.code !== baseCurrency && !targetCurrencies.some(tc => tc.code === c.code)
   );
 
   return (

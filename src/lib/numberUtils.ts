@@ -25,12 +25,12 @@ export const removeCommas = (value: string): string => {
 
 // Function to format numbers with or without decimals
 export const formatNumberWithDecimals = (value: string | number, showDecimals: boolean = true): string => {
-  if (!value) return '0';
+  if (!value) return showDecimals ? '0.00' : '0';
   
-  // FIXED: Remove commas first before parsing, just like other functions
+  // Remove commas first before parsing, just like other functions
   const cleanValue = typeof value === 'string' ? removeCommas(value) : value.toString();
   const numValue = typeof value === 'string' ? parseFloat(cleanValue) : value;
-  if (isNaN(numValue)) return '0';
+  if (isNaN(numValue)) return showDecimals ? '0.00' : '0';
   
   console.log('formatNumberWithDecimals input:', value, 'cleaned:', cleanValue, 'parsed:', numValue, 'showDecimals:', showDecimals);
   
@@ -55,61 +55,51 @@ export const formatNumberWithDecimals = (value: string | number, showDecimals: b
   }
 };
 
-// New function to handle cursor-friendly number input
+// Simplified input number formatting for better cursor handling
 export const formatInputNumber = (value: string, isAtEnd: boolean = false, showDecimals: boolean = true): string => {
   // Remove all commas first
   const cleanValue = removeCommas(value);
   
   console.log('formatInputNumber input:', value, 'cleaned:', cleanValue, 'isAtEnd:', isAtEnd, 'showDecimals:', showDecimals);
   
-  if (!cleanValue || cleanValue === '0') return showDecimals ? '0' : '0';
+  if (!cleanValue || cleanValue === '0') return showDecimals ? '0.00' : '0';
   
   const numValue = parseFloat(cleanValue);
-  if (isNaN(numValue)) return showDecimals ? '0' : '0';
+  if (isNaN(numValue)) return showDecimals ? '0.00' : '0';
   
-  // If decimals are disabled, format as whole number with commas
-  if (!showDecimals) {
-    const formatted = new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-      useGrouping: true
-    }).format(Math.floor(numValue));
-    console.log('formatInputNumber (no decimals) output:', formatted);
-    return formatted;
-  }
-  
-  // If cursor is at the end and user is typing, don't force decimal places
-  if (isAtEnd && !cleanValue.includes('.')) {
-    const formatted = new Intl.NumberFormat('en-US', {
-      useGrouping: true
-    }).format(numValue);
-    console.log('formatInputNumber (at end, no decimal) output:', formatted);
-    return formatted;
-  }
-  
-  // For other cases, use standard formatting with proper comma removal
+  // Simpler formatting to reduce cursor jumping
   const formatted = new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
     useGrouping: true
   }).format(numValue);
-  console.log('formatInputNumber (standard) output:', formatted);
+  console.log('formatInputNumber output:', formatted);
   return formatted;
 };
 
-// Function to calculate cursor position after formatting
+// Improved cursor position calculation
 export const calculateCursorPosition = (
   originalValue: string,
   newValue: string,
   originalCursorPos: number
 ): number => {
-  // Count commas before cursor in original value
-  const commasBefore = (originalValue.substring(0, originalCursorPos).match(/,/g) || []).length;
+  // If cursor was at the end, keep it at the end
+  if (originalCursorPos === originalValue.length) {
+    return newValue.length;
+  }
   
-  // Count commas before cursor in new value
-  const newCommasBefore = (newValue.substring(0, originalCursorPos).match(/,/g) || []).length;
+  // Count non-comma characters before cursor in original value
+  const originalPrefix = originalValue.substring(0, originalCursorPos);
+  const nonCommasBefore = originalPrefix.replace(/,/g, '').length;
   
-  // Adjust cursor position based on comma difference
-  const adjustment = newCommasBefore - commasBefore;
-  return Math.max(0, Math.min(newValue.length, originalCursorPos + adjustment));
+  // Find position in new value that corresponds to same number of non-comma characters
+  let charCount = 0;
+  for (let i = 0; i < newValue.length; i++) {
+    if (newValue[i] !== ',') {
+      charCount++;
+    }
+    if (charCount === nonCommasBefore) {
+      return i + 1;
+    }
+  }
+  
+  return Math.min(newValue.length, originalCursorPos);
 };

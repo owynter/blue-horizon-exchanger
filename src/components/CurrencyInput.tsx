@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { X, GripVertical } from 'lucide-react';
-import { formatInputNumber, removeCommas, calculateCursorPosition, formatNumberWithDecimals } from '@/lib/numberUtils';
+import { formatNumberWithCommas, removeCommas, formatNumberWithDecimals } from '@/lib/numberUtils';
 import CurrencyDropdown from './CurrencyDropdown';
 
 interface CurrencyInputProps {
@@ -32,6 +32,28 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Smart number building function
+  const buildSmartNumber = (currentValue: string, newDigit: string, cursorPosition: number): string => {
+    const cleanCurrent = removeCommas(currentValue);
+    
+    // If we're at the end and have a decimal value like "0.00", build number intelligently
+    if (cursorPosition === currentValue.length && cleanCurrent.includes('.')) {
+      const parts = cleanCurrent.split('.');
+      const wholePart = parts[0];
+      const decimalPart = parts[1] || '';
+      
+      // If typing at the end of "0.00", shift digits left and add new digit
+      if (wholePart === '0' && decimalPart.length === 2) {
+        const allDigits = decimalPart + newDigit;
+        const newWhole = allDigits.slice(0, -2) || '0';
+        const newDecimals = allDigits.slice(-2);
+        return `${newWhole}.${newDecimals}`;
+      }
+    }
+    
+    return null; // Use normal input handling
+  };
+
   const handleAmountChange = (value: string) => {
     const input = inputRef.current;
     if (!input) return;
@@ -39,7 +61,25 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     console.log('CurrencyInput handleAmountChange raw input:', value);
     
     const cursorPosition = input.selectionStart || 0;
+    const oldValue = input.value;
     const isAtEnd = cursorPosition === value.length;
+    
+    // Check if this is a single character addition at the end
+    const isSingleDigitAtEnd = value.length === oldValue.length + 1 && 
+                               isAtEnd && 
+                               /\d/.test(value.slice(-1));
+    
+    // Try smart number building for single digit additions at the end
+    if (isSingleDigitAtEnd && showDecimals) {
+      const newDigit = value.slice(-1);
+      const smartResult = buildSmartNumber(oldValue, newDigit, cursorPosition);
+      if (smartResult) {
+        const cleanResult = removeCommas(smartResult);
+        console.log('Smart number building result:', cleanResult);
+        onAmountChange?.(cleanResult);
+        return;
+      }
+    }
     
     // Remove commas for processing
     const cleanValue = removeCommas(value);
@@ -74,12 +114,21 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     console.log('CurrencyInput handleAmountChange: calling onAmountChange with:', cleanValue);
     onAmountChange?.(cleanValue);
     
-    // Handle cursor positioning after formatting
+    // Improved cursor positioning after formatting
     setTimeout(() => {
       if (input && document.activeElement === input) {
-        const formattedValue = formatInputNumber(cleanValue, isAtEnd, showDecimals);
-        const newPosition = calculateCursorPosition(value, formattedValue, cursorPosition);
-        input.setSelectionRange(newPosition, newPosition);
+        // For focused input, maintain cursor at the end if user was typing there
+        if (isAtEnd) {
+          input.setSelectionRange(input.value.length, input.value.length);
+        } else {
+          // For other positions, try to maintain relative position
+          const newFormattedValue = getDisplayValue();
+          const newLength = newFormattedValue.length;
+          const oldLength = oldValue.length;
+          const lengthDiff = newLength - oldLength;
+          const newPosition = Math.max(0, Math.min(newLength, cursorPosition + lengthDiff));
+          input.setSelectionRange(newPosition, newPosition);
+        }
       }
     }, 0);
   };
@@ -91,15 +140,32 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     if (!amount) return '';
     const input = inputRef.current;
     const isFocused = input && document.activeElement === input;
-    const isAtEnd = isFocused && input.selectionStart === input.value.length;
     
-    // When focused, use input-friendly formatting
+    // When focused, use simpler formatting to avoid cursor jumps
     if (isFocused) {
-      const result = formatInputNumber(amount, isAtEnd, showDecimals);
-      console.log('CurrencyInput getDisplayValue (focused):', result);
-      return result;
+      const numValue = parseFloat(removeCommas(amount));
+      if (isNaN(numValue)) return '';
+      
+      // For focused state, be less aggressive with formatting
+      if (showDecimals) {
+        // If the raw amount already has a decimal, preserve it
+        if (amount.includes('.')) {
+          const result = formatNumberWithCommas(amount);
+          console.log('CurrencyInput getDisplayValue (focused, has decimal):', result);
+          return result;
+        } else {
+          // If no decimal in raw amount, don't force one during typing
+          const result = formatNumberWithCommas(numValue.toString());
+          console.log('CurrencyInput getDisplayValue (focused, no decimal):', result);
+          return result;
+        }
+      } else {
+        const result = formatNumberWithCommas(Math.floor(numValue).toString());
+        console.log('CurrencyInput getDisplayValue (focused, no decimals):', result);
+        return result;
+      }
     } else {
-      // When not focused, use display formatting
+      // When not focused, use full display formatting
       const result = formatNumberWithDecimals(amount, showDecimals);
       console.log('CurrencyInput getDisplayValue (not focused):', result);
       return result;

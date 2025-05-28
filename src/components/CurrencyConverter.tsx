@@ -79,10 +79,12 @@ const CurrencyConverter: React.FC = () => {
         return;
       }
       
-      if (targetCurrencies.length >= MAX_CURRENCIES) {
+      // Check total currency limit (base currency + target currencies)
+      const totalCurrencies = 1 + targetCurrencies.length; // 1 for base currency
+      if (totalCurrencies >= MAX_CURRENCIES) {
         toast({
           title: "Currency limit reached",
-          description: `Maximum ${MAX_CURRENCIES} currencies allowed.`,
+          description: `Maximum ${MAX_CURRENCIES} currencies allowed in total.`,
           variant: "destructive",
         });
         return;

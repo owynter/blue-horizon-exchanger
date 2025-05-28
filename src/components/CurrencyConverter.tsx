@@ -12,44 +12,43 @@ const CurrencyConverter: React.FC = () => {
     { id: '1', code: 'EUR' },
     { id: '2', code: 'GBP' },
   ]);
-  const [newCurrency, setNewCurrency] = useState('');
 
-  const addCurrency = () => {
-    if (!newCurrency) {
-      toast({
-        title: "Please select a currency",
-        description: "Choose a currency from the dropdown to add it.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    if (newCurrency === baseCurrency) {
-      toast({
-        title: "Cannot add base currency",
-        description: "The selected currency is already your base currency.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    if (targetCurrencies.some(tc => tc.code === newCurrency)) {
-      toast({
-        title: "Currency already added",
-        description: "This currency is already in your conversion list.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    const newId = Date.now().toString();
-    setTargetCurrencies([...targetCurrencies, { id: newId, code: newCurrency }]);
-    setNewCurrency('');
-    
-    toast({
-      title: "Currency added",
-      description: `${newCurrency} has been added to your conversion list.`,
+  const addMultipleCurrencies = (currencyCodes: string[]) => {
+    const validCodes = currencyCodes.filter(code => {
+      if (code === baseCurrency) {
+        toast({
+          title: "Cannot add base currency",
+          description: `${code} is already your base currency.`,
+          variant: "destructive",
+        });
+        return false;
+      }
+      
+      if (targetCurrencies.some(tc => tc.code === code)) {
+        toast({
+          title: "Currency already added",
+          description: `${code} is already in your conversion list.`,
+          variant: "destructive",
+        });
+        return false;
+      }
+      
+      return true;
     });
+
+    if (validCodes.length > 0) {
+      const newCurrencies = validCodes.map(code => ({
+        id: Date.now().toString() + Math.random().toString(),
+        code
+      }));
+      
+      setTargetCurrencies([...targetCurrencies, ...newCurrencies]);
+      
+      toast({
+        title: "Currencies added",
+        description: `${validCodes.join(', ')} ${validCodes.length === 1 ? 'has' : 'have'} been added to your conversion list.`,
+      });
+    }
   };
 
   const removeCurrency = (id: string) => {
@@ -112,10 +111,8 @@ const CurrencyConverter: React.FC = () => {
             onRemove={removeCurrency}
             currencies={currencies}
             calculateConversion={calculateConversion}
-            newCurrency={newCurrency}
-            setNewCurrency={setNewCurrency}
-            onAddCurrency={addCurrency}
             availableCurrencies={availableCurrencies}
+            onAddMultipleCurrencies={addMultipleCurrencies}
           />
         </div>
       </div>

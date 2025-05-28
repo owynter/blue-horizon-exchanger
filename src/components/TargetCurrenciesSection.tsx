@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import SortableCurrencyInput from './SortableCurrencyInput';
-import AddCurrencySection from './AddCurrencySection';
+import MultiSelectCurrencyDropdown from './MultiSelectCurrencyDropdown';
 import { TargetCurrency, Currency } from '@/data/CurrencyData';
 
 interface TargetCurrenciesSectionProps {
@@ -27,10 +27,8 @@ interface TargetCurrenciesSectionProps {
   onRemove: (id: string) => void;
   currencies: Currency[];
   calculateConversion: (amount: string, from: string, to: string) => string;
-  newCurrency: string;
-  setNewCurrency: (currency: string) => void;
-  onAddCurrency: () => void;
   availableCurrencies: Currency[];
+  onAddMultipleCurrencies: (currencyCodes: string[]) => void;
 }
 
 const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
@@ -42,10 +40,8 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
   onRemove,
   currencies,
   calculateConversion,
-  newCurrency,
-  setNewCurrency,
-  onAddCurrency,
-  availableCurrencies
+  availableCurrencies,
+  onAddMultipleCurrencies
 }) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -58,7 +54,7 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setTargetCurrencies((items) => {
+      setTargetCurrencies((items: TargetCurrency[]) => {
         const oldIndex = items.findIndex(item => item.id === active.id);
         const newIndex = items.findIndex(item => item.id === over.id);
 
@@ -69,8 +65,6 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-blue-900 mb-4">Convert to</h3>
-      
       {/* Target Currencies List with Drag and Drop */}
       {targetCurrencies.length > 0 && (
         <DndContext
@@ -100,12 +94,10 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
         </DndContext>
       )}
 
-      {/* Add Currency Section */}
-      <AddCurrencySection
-        newCurrency={newCurrency}
-        setNewCurrency={setNewCurrency}
-        onAddCurrency={onAddCurrency}
+      {/* Multi-Select Currency Dropdown */}
+      <MultiSelectCurrencyDropdown
         availableCurrencies={availableCurrencies}
+        onAddCurrencies={onAddMultipleCurrencies}
       />
 
       {/* Empty state when no currencies */}

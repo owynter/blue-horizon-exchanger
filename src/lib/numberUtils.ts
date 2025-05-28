@@ -15,6 +15,28 @@ export const removeCommas = (value: string): string => {
   return value.replace(/,/g, '');
 };
 
+// Function to format numbers with or without decimals
+export const formatNumberWithDecimals = (value: string | number, showDecimals: boolean = true): string => {
+  if (!value) return '0';
+  
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  if (isNaN(numValue)) return '0';
+  
+  if (showDecimals) {
+    return numValue.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  } else {
+    // Round up to nearest whole number
+    const roundedValue = Math.ceil(numValue);
+    return roundedValue.toLocaleString('en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+  }
+};
+
 // New function to handle cursor-friendly number input
 export const formatInputNumber = (value: string, isAtEnd: boolean = false): string => {
   // Remove all commas first

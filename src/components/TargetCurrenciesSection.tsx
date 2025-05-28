@@ -28,9 +28,10 @@ interface TargetCurrenciesSectionProps {
   currencies: Currency[];
   calculateConversion: (amount: string, from: string, to: string) => string;
   availableCurrencies: Currency[];
-  onAddMultipleCurrencies: (currencyCode: string) => void; // Changed from string[] to string
+  onAddMultipleCurrencies: (currencyCode: string) => void;
   getDisplayAmount: (currencyCode: string) => string;
   onTargetAmountChange: (targetId: string, amount: string) => void;
+  showDecimals: boolean;
 }
 
 const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
@@ -42,7 +43,8 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
   availableCurrencies,
   onAddMultipleCurrencies,
   getDisplayAmount,
-  onTargetAmountChange
+  onTargetAmountChange,
+  showDecimals
 }) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -90,6 +92,7 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
                   onCurrencyChange={onCurrencyChange}
                   onRemove={onRemove}
                   currencies={currencies}
+                  showDecimals={showDecimals}
                 />
               ))}
             </div>

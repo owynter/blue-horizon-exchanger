@@ -1,3 +1,4 @@
+
 import React from 'react';
 import CurrencyInput from './CurrencyInput';
 import { Currency } from '@/data/CurrencyData';
@@ -8,6 +9,7 @@ interface BaseCurrencySectionProps {
   onAmountChange: (amount: string) => void;
   onCurrencyChange: (currency: string) => void;
   currencies: Currency[];
+  showDecimals: boolean;
 }
 
 const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
@@ -15,7 +17,8 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
   baseCurrency,
   onAmountChange,
   onCurrencyChange,
-  currencies
+  currencies,
+  showDecimals
 }) => {
   return (
     <div className="space-y-6">
@@ -27,6 +30,7 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
         onAmountChange={onAmountChange}
         onCurrencyChange={onCurrencyChange}
         currencies={currencies}
+        showDecimals={showDecimals}
       />
     </div>
   );

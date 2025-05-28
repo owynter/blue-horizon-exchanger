@@ -1,10 +1,9 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { X, GripVertical } from 'lucide-react';
-import { formatInputNumber, removeCommas, calculateCursorPosition } from '@/lib/numberUtils';
+import { formatInputNumber, removeCommas, calculateCursorPosition, formatNumberWithDecimals } from '@/lib/numberUtils';
 import CurrencyDropdown from './CurrencyDropdown';
 
 interface CurrencyInputProps {
@@ -16,6 +15,7 @@ interface CurrencyInputProps {
   onRemove?: () => void;
   currencies: Array<{ code: string; name: string; symbol: string; flag: string }>;
   dragHandleProps?: any;
+  showDecimals: boolean;
 }
 
 const CurrencyInput: React.FC<CurrencyInputProps> = ({
@@ -26,7 +26,8 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   onCurrencyChange,
   onRemove,
   currencies,
-  dragHandleProps
+  dragHandleProps,
+  showDecimals
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -64,13 +65,18 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     }, 0);
   };
 
-  // Format the display value based on cursor position
+  // Format the display value based on cursor position and decimal setting
   const getDisplayValue = () => {
     if (!amount) return '';
     const input = inputRef.current;
     const isAtEnd = input && document.activeElement === input && 
                    input.selectionStart === input.value.length;
-    return formatInputNumber(amount, isAtEnd);
+    
+    if (showDecimals) {
+      return formatInputNumber(amount, isAtEnd);
+    } else {
+      return formatNumberWithDecimals(amount, false);
+    }
   };
 
   return (

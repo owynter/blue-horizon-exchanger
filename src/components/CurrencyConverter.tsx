@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { Switch } from '@/components/ui/switch';
 import BaseCurrencySection from './BaseCurrencySection';
 import TargetCurrenciesSection from './TargetCurrenciesSection';
 import ConversionArrows from './ConversionArrows';
@@ -19,6 +20,7 @@ const CurrencyConverter: React.FC = () => {
   const [lastEditedCurrency, setLastEditedCurrency] = useState('USD');
   const [sourceAmount, setSourceAmount] = useState('1000');
   const [lastUpdated, setLastUpdated] = useState<Date>(generateRealisticTimestamp());
+  const [showDecimals, setShowDecimals] = useState(true);
 
   // Update timestamp every hour to simulate rate updates
   useEffect(() => {
@@ -157,13 +159,28 @@ const CurrencyConverter: React.FC = () => {
           <div className="bg-white rounded-2xl p-6 shadow-lg">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
               {/* Left Column - Base Currency */}
-              <BaseCurrencySection
-                baseAmount={lastEditedCurrency === baseCurrency ? sourceAmount : getDisplayAmount(baseCurrency)}
-                baseCurrency={baseCurrency}
-                onAmountChange={handleBaseAmountChange}
-                onCurrencyChange={setBaseCurrency}
-                currencies={currencies}
-              />
+              <div>
+                <BaseCurrencySection
+                  baseAmount={lastEditedCurrency === baseCurrency ? sourceAmount : getDisplayAmount(baseCurrency)}
+                  baseCurrency={baseCurrency}
+                  onAmountChange={handleBaseAmountChange}
+                  onCurrencyChange={setBaseCurrency}
+                  currencies={currencies}
+                  showDecimals={showDecimals}
+                />
+                
+                {/* Decimal Toggle */}
+                <div className="flex items-center justify-between p-4 bg-blue-50 rounded-xl border border-blue-200 mt-4">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-blue-900">Show decimals</span>
+                    <span className="text-xs text-blue-600">Toggle to show whole numbers only</span>
+                  </div>
+                  <Switch
+                    checked={showDecimals}
+                    onCheckedChange={setShowDecimals}
+                  />
+                </div>
+              </div>
 
               {/* Right Column - Target Currencies */}
               <TargetCurrenciesSection
@@ -179,6 +196,7 @@ const CurrencyConverter: React.FC = () => {
                 onAddMultipleCurrencies={handleCurrencyToggle}
                 getDisplayAmount={getDisplayAmount}
                 onTargetAmountChange={handleTargetAmountChange}
+                showDecimals={showDecimals}
               />
             </div>
           </div>

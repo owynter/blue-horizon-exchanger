@@ -12,6 +12,7 @@ interface SortableCurrencyInputProps {
   onCurrencyChange: (id: string, newCode: string) => void;
   onRemove: (id: string) => void;
   currencies: Currency[];
+  showDecimals: boolean;
 }
 
 const SortableCurrencyInput: React.FC<SortableCurrencyInputProps> = ({
@@ -20,7 +21,8 @@ const SortableCurrencyInput: React.FC<SortableCurrencyInputProps> = ({
   onAmountChange,
   onCurrencyChange,
   onRemove,
-  currencies
+  currencies,
+  showDecimals
 }) => {
   const {
     attributes,
@@ -45,6 +47,7 @@ const SortableCurrencyInput: React.FC<SortableCurrencyInputProps> = ({
         onRemove={() => onRemove(targetCurrency.id)}
         currencies={currencies}
         dragHandleProps={{ ...attributes, ...listeners }}
+        showDecimals={showDecimals}
       />
     </div>
   );

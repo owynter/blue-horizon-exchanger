@@ -1,4 +1,3 @@
-
 import { useRef } from 'react';
 import { removeCommas } from '@/lib/numberUtils';
 
@@ -30,22 +29,29 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
       
       console.log('Decimal point position:', decimalPointPos, 'Cursor position:', cursorPos);
       
-      // Check if cursor is in the decimal area (after decimal point)
+      // Check if cursor is in the decimal area (after decimal point) and we have 2 decimal places
       if (cursorPos > decimalPointPos && decimalPart.length === 2) {
-        // Combine all digits: whole part + decimal part + new input
-        const allDigits = wholePart + decimalPart + newInput;
+        // Calculate which decimal position we're at
+        const decimalCursorPos = cursorPos - decimalPointPos - 1;
+        console.log('Decimal cursor position:', decimalCursorPos);
         
-        // Split to keep last 2 digits as decimals
-        const newDecimalPart = allDigits.slice(-2);
-        const newWholePart = allDigits.slice(0, -2) || '0';
-        
-        const result = `${newWholePart}.${newDecimalPart}`;
-        console.log('Decimal shifting:', cleanCurrent, '+', newInput, '->', result);
-        
-        // Calculate new cursor position (should stay at end of input)
-        const newCursorPos = result.length;
-        
-        return { result, newCursorPos };
+        // Only do decimal shifting if typing at the end or if we would exceed 2 decimal places
+        if (decimalCursorPos >= 2) {
+          // Combine all digits: whole part + decimal part + new input
+          const allDigits = wholePart + decimalPart + newInput;
+          
+          // Split to keep last 2 digits as decimals
+          const newDecimalPart = allDigits.slice(-2);
+          const newWholePart = allDigits.slice(0, -2) || '0';
+          
+          const result = `${newWholePart}.${newDecimalPart}`;
+          console.log('Decimal shifting:', cleanCurrent, '+', newInput, '->', result);
+          
+          // Calculate new cursor position (should stay at end of input)
+          const newCursorPos = result.length;
+          
+          return { result, newCursorPos };
+        }
       }
       
       // Handle typing at the very end with 2 decimal places

@@ -55,50 +55,49 @@ const CurrencyConverter: React.FC = () => {
     return calculateCrossCurrencyConversion(sourceAmount, lastEditedCurrency, currencyCode, baseCurrency);
   };
 
-  const addMultipleCurrencies = (currencyCodes: string[]) => {
-    // Check if adding these currencies would exceed the limit
-    if (targetCurrencies.length + currencyCodes.length > MAX_CURRENCIES) {
+  const handleCurrencyToggle = (currencyCodes: string[]) => {
+    const currencyCode = currencyCodes[0]; // We're only handling one at a time now
+    
+    // Check if currency already exists in target currencies
+    const existingCurrency = targetCurrencies.find(tc => tc.code === currencyCode);
+    
+    if (existingCurrency) {
+      // Remove the currency
+      setTargetCurrencies(targetCurrencies.filter(tc => tc.code !== currencyCode));
       toast({
-        title: "Currency limit reached",
-        description: `Maximum ${MAX_CURRENCIES} currencies allowed. You currently have ${targetCurrencies.length} currencies.`,
-        variant: "destructive",
+        title: "Currency removed",
+        description: `${currencyCode} has been removed from your conversion list.`,
       });
-      return;
-    }
-
-    const validCodes = currencyCodes.filter(code => {
-      if (code === baseCurrency) {
+    } else {
+      // Add the currency
+      if (currencyCode === baseCurrency) {
         toast({
           title: "Cannot add base currency",
-          description: `${code} is already your base currency.`,
+          description: `${currencyCode} is already your base currency.`,
           variant: "destructive",
         });
-        return false;
+        return;
       }
       
-      if (targetCurrencies.some(tc => tc.code === code)) {
+      if (targetCurrencies.length >= MAX_CURRENCIES) {
         toast({
-          title: "Currency already added",
-          description: `${code} is already in your conversion list.`,
+          title: "Currency limit reached",
+          description: `Maximum ${MAX_CURRENCIES} currencies allowed.`,
           variant: "destructive",
         });
-        return false;
+        return;
       }
-      
-      return true;
-    });
 
-    if (validCodes.length > 0) {
-      const newCurrencies = validCodes.map(code => ({
+      const newCurrency = {
         id: Date.now().toString() + Math.random().toString(),
-        code
-      }));
+        code: currencyCode
+      };
       
-      setTargetCurrencies([...targetCurrencies, ...newCurrencies]);
+      setTargetCurrencies([...targetCurrencies, newCurrency]);
       
       toast({
-        title: "Currencies added",
-        description: `${validCodes.join(', ')} ${validCodes.length === 1 ? 'has' : 'have'} been added to your conversion list.`,
+        title: "Currency added",
+        description: `${currencyCode} has been added to your conversion list.`,
       });
     }
   };
@@ -132,7 +131,7 @@ const CurrencyConverter: React.FC = () => {
   };
 
   const availableCurrencies = currencies.filter(c => 
-    c.code !== baseCurrency && !targetCurrencies.some(tc => tc.code === c.code)
+    c.code !== baseCurrency
   );
 
   return (
@@ -177,7 +176,7 @@ const CurrencyConverter: React.FC = () => {
                 currencies={currencies}
                 calculateConversion={calculateConversion}
                 availableCurrencies={availableCurrencies}
-                onAddMultipleCurrencies={addMultipleCurrencies}
+                onAddMultipleCurrencies={handleCurrencyToggle}
                 getDisplayAmount={getDisplayAmount}
                 onTargetAmountChange={handleTargetAmountChange}
               />

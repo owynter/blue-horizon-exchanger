@@ -3,6 +3,7 @@ import { toast } from '@/hooks/use-toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import BaseCurrencySection from './BaseCurrencySection';
 import TargetCurrenciesSection from './TargetCurrenciesSection';
+import ConversionArrows from './ConversionArrows';
 import { currencies, calculateConversion, calculateCrossCurrencyConversion, TargetCurrency } from '@/data/CurrencyData';
 import { generateRealisticTimestamp, formatRelativeTime } from '@/utils/timestampUtils';
 
@@ -155,7 +156,7 @@ const CurrencyConverter: React.FC = () => {
           </div>
 
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
               {/* Left Column - Base Currency */}
               <BaseCurrencySection
                 baseAmount={lastEditedCurrency === baseCurrency ? sourceAmount : getDisplayAmount(baseCurrency)}
@@ -164,6 +165,11 @@ const CurrencyConverter: React.FC = () => {
                 onCurrencyChange={setBaseCurrency}
                 currencies={currencies}
               />
+
+              {/* Middle Column - Conversion Arrows (only show on large screens) */}
+              <div className="hidden lg:flex items-center justify-center">
+                <ConversionArrows />
+              </div>
 
               {/* Right Column - Target Currencies */}
               <TargetCurrenciesSection

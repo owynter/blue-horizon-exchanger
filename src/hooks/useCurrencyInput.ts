@@ -10,105 +10,53 @@ interface UseCurrencyInputProps {
 export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCurrencyInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Enhanced smart number building for decimal shifting
-  const buildSmartNumber = (currentValue: string, newInput: string, cursorPos: number): { result: string | null, newCursorPos?: number } => {
-    if (!showDecimals) return { result: null };
-    
-    const cleanCurrent = removeCommas(currentValue);
-    console.log('buildSmartNumber called with:', cleanCurrent, 'new input:', newInput, 'cursor pos:', cursorPos);
-    
-    // Only do smart building if we're adding digits to a decimal value
-    if (cleanCurrent.includes('.') && /^\d+$/.test(newInput)) {
-      const parts = cleanCurrent.split('.');
-      const wholePart = parts[0];
-      const decimalPart = parts[1] || '';
-      
-      // Find the decimal point position in the formatted value
-      const formattedValue = currentValue;
-      const decimalPointPos = formattedValue.indexOf('.');
-      
-      console.log('Decimal point position:', decimalPointPos, 'Cursor position:', cursorPos);
-      
-      // Check if cursor is in the decimal area (after decimal point) and we have 2 decimal places
-      if (cursorPos > decimalPointPos && decimalPart.length === 2) {
-        // Calculate which decimal position we're at
-        const decimalCursorPos = cursorPos - decimalPointPos - 1;
-        console.log('Decimal cursor position:', decimalCursorPos);
-        
-        // Only do decimal shifting if typing at the end or if we would exceed 2 decimal places
-        if (decimalCursorPos >= 2) {
-          // Combine all digits: whole part + decimal part + new input
-          const allDigits = wholePart + decimalPart + newInput;
-          
-          // Split to keep last 2 digits as decimals
-          const newDecimalPart = allDigits.slice(-2);
-          const newWholePart = allDigits.slice(0, -2) || '0';
-          
-          const result = `${newWholePart}.${newDecimalPart}`;
-          console.log('Decimal shifting:', cleanCurrent, '+', newInput, '->', result);
-          
-          // Calculate new cursor position (should stay at end of input)
-          const newCursorPos = result.length;
-          
-          return { result, newCursorPos };
-        }
-      }
-      
-      // Handle typing at the very end with 2 decimal places
-      if (cursorPos >= formattedValue.length && decimalPart.length === 2) {
-        const allDigits = wholePart + decimalPart + newInput;
-        const newDecimalPart = allDigits.slice(-2);
-        const newWholePart = allDigits.slice(0, -2) || '0';
-        const result = `${newWholePart}.${newDecimalPart}`;
-        
-        return { result, newCursorPos: result.length };
-      }
-    }
-    
-    return { result: null };
-  };
-
   const handleAmountChange = (value: string) => {
-    console.log('useCurrencyInput handleAmountChange raw input:', value);
+    console.log('handleAmountChange called with:', value);
     
     const input = inputRef.current;
     if (!input) return;
     
-    // Get cursor position before processing
+    // Get cursor position
     const cursorPosition = input.selectionStart || 0;
     const isAtEnd = cursorPosition === value.length;
     
-    console.log('Cursor position:', cursorPosition, 'Value length:', value.length, 'Is at end:', isAtEnd);
-    
-    // Clean the old and new values to compare them properly
+    // Clean the values
     const oldCleanValue = removeCommas(amount);
     const newCleanValue = removeCommas(value);
     
-    console.log('Comparing clean values - old:', oldCleanValue, 'new:', newCleanValue);
+    console.log('Old clean:', oldCleanValue, 'New clean:', newCleanValue);
     
-    // Check if this is smart number building scenario (adding digits)
-    if (newCleanValue.length > oldCleanValue.length) {
+    // Check for decimal shifting case: typing digits at the very end when we have exactly 2 decimal places
+    if (showDecimals && isAtEnd && newCleanValue.length > oldCleanValue.length) {
       const addedChars = newCleanValue.slice(oldCleanValue.length);
-      console.log('Added chars:', addedChars);
       
-      const smartResult = buildSmartNumber(amount, addedChars, cursorPosition);
-      if (smartResult.result) {
-        console.log('Smart number building result:', smartResult.result);
-        onAmountChange?.(smartResult.result);
-        
-        // Set cursor position after the state update
-        setTimeout(() => {
-          if (input && smartResult.newCursorPos !== undefined) {
-            input.setSelectionRange(smartResult.newCursorPos, smartResult.newCursorPos);
-          }
-        }, 0);
-        return;
+      // Only apply decimal shifting if:
+      // 1. We're adding digits (not other characters)
+      // 2. The old value has exactly 2 decimal places
+      // 3. We're typing at the very end
+      if (/^\d+$/.test(addedChars) && oldCleanValue.includes('.')) {
+        const parts = oldCleanValue.split('.');
+        if (parts[1] && parts[1].length === 2) {
+          // Apply decimal shifting
+          const wholePart = parts[0];
+          const decimalPart = parts[1];
+          const allDigits = wholePart + decimalPart + addedChars;
+          
+          // Keep last 2 digits as decimals
+          const newDecimalPart = allDigits.slice(-2);
+          const newWholePart = allDigits.slice(0, -2) || '0';
+          
+          const shiftedResult = `${newWholePart}.${newDecimalPart}`;
+          console.log('Decimal shifting applied:', oldCleanValue, '->', shiftedResult);
+          
+          onAmountChange?.(shiftedResult);
+          return;
+        }
       }
     }
     
-    // Remove commas for processing
+    // Regular input validation
     const cleanValue = newCleanValue;
-    console.log('useCurrencyInput handleAmountChange cleaned value:', cleanValue);
     
     // Allow empty input
     if (cleanValue === '') {
@@ -118,25 +66,29 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
     
     // Input validation
     if (showDecimals) {
+      // Check for valid decimal format
+      if (!/^\d*\.?\d*$/.test(cleanValue) || (cleanValue.match(/\./g) || []).length > 1) {
+        console.log('Invalid decimal format, rejecting');
+        return;
+      }
+      
       // Prevent more than 2 decimal places
       if (cleanValue.includes('.')) {
         const parts = cleanValue.split('.');
         if (parts[1] && parts[1].length > 2) {
-          console.log('Preventing more than 2 decimal places');
+          console.log('More than 2 decimal places, rejecting');
           return;
         }
       }
-      
-      if (!/^\d*\.?\d*$/.test(cleanValue) || (cleanValue.match(/\./g) || []).length > 1) {
-        return;
-      }
     } else {
+      // Only allow digits for non-decimal mode
       if (!/^\d*$/.test(cleanValue)) {
+        console.log('Invalid whole number format, rejecting');
         return;
       }
     }
     
-    console.log('useCurrencyInput handleAmountChange: calling onAmountChange with:', cleanValue);
+    console.log('Accepting input:', cleanValue);
     onAmountChange?.(cleanValue);
   };
 

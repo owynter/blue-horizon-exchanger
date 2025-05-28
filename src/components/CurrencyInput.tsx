@@ -36,12 +36,6 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
 
   return (
     <div className="text-sm mb-6">
-      {isBase && (
-        <label className="inline-block max-w-full text-blue-900 font-medium mb-2">
-          Amount
-        </label>
-      )}
-      
       <div className="flex items-center gap-3">
         {/* Drag Handle - only for non-base currencies */}
         {!isBase && (

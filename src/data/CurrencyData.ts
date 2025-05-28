@@ -1,4 +1,3 @@
-
 import { formatNumberWithCommas } from '@/lib/numberUtils';
 
 export interface Currency {
@@ -57,33 +56,65 @@ export const usdExchangeRates: { [key: string]: number } = {
 // Convert any currency to USD
 export const convertToUSD = (amount: string, fromCurrency: string): number => {
   const numAmount = parseFloat(amount.replace(/,/g, ''));
-  if (isNaN(numAmount) || !usdExchangeRates[fromCurrency]) return 0;
+  console.log('convertToUSD input:', amount, 'fromCurrency:', fromCurrency, 'parsed amount:', numAmount);
   
-  if (fromCurrency === 'USD') return numAmount;
+  if (isNaN(numAmount) || !usdExchangeRates[fromCurrency]) {
+    console.log('convertToUSD: invalid input, returning 0');
+    return 0;
+  }
+  
+  if (fromCurrency === 'USD') {
+    console.log('convertToUSD: already USD, returning:', numAmount);
+    return numAmount;
+  }
+  
   // To convert TO USD, we divide by the exchange rate
-  return numAmount / usdExchangeRates[fromCurrency];
+  const result = numAmount / usdExchangeRates[fromCurrency];
+  console.log('convertToUSD result:', result, 'rate used:', usdExchangeRates[fromCurrency]);
+  return result;
 };
 
 // Convert USD to any currency
 export const convertFromUSD = (usdAmount: number, toCurrency: string): string => {
-  if (!usdExchangeRates[toCurrency]) return '0.00';
+  console.log('convertFromUSD input:', usdAmount, 'toCurrency:', toCurrency);
+  
+  if (!usdExchangeRates[toCurrency]) {
+    console.log('convertFromUSD: invalid currency, returning 0.00');
+    return '0.00';
+  }
   
   if (toCurrency === 'USD') {
-    return formatNumberWithCommas(usdAmount.toFixed(2));
+    const result = formatNumberWithCommas(usdAmount.toFixed(2));
+    console.log('convertFromUSD: already USD, returning:', result);
+    return result;
   }
   
   // To convert FROM USD, we multiply by the exchange rate
-  const result = usdAmount * usdExchangeRates[toCurrency];
-  return formatNumberWithCommas(result.toFixed(2));
+  const convertedAmount = usdAmount * usdExchangeRates[toCurrency];
+  console.log('convertFromUSD: converted amount before formatting:', convertedAmount, 'rate used:', usdExchangeRates[toCurrency]);
+  
+  const result = formatNumberWithCommas(convertedAmount.toFixed(2));
+  console.log('convertFromUSD final result:', result);
+  return result;
 };
 
 // Main conversion function using USD as base
 export const calculateConversion = (amount: string, fromCurrency: string, toCurrency: string): string => {
-  if (!amount || fromCurrency === toCurrency) return formatNumberWithCommas(amount);
+  console.log('calculateConversion input:', amount, 'from:', fromCurrency, 'to:', toCurrency);
+  
+  if (!amount || fromCurrency === toCurrency) {
+    const result = formatNumberWithCommas(amount);
+    console.log('calculateConversion: same currency or empty, returning:', result);
+    return result;
+  }
   
   // Convert to USD first, then to target currency
   const usdAmount = convertToUSD(amount, fromCurrency);
-  return convertFromUSD(usdAmount, toCurrency);
+  console.log('calculateConversion: USD amount:', usdAmount);
+  
+  const finalResult = convertFromUSD(usdAmount, toCurrency);
+  console.log('calculateConversion final result:', finalResult);
+  return finalResult;
 };
 
 // Simplified cross-currency conversion (now just uses the main function)

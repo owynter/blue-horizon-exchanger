@@ -1,18 +1,26 @@
-
 export const formatNumberWithCommas = (value: string | number): string => {
   if (!value) return '0';
   
   const numValue = typeof value === 'string' ? parseFloat(value) : value;
   if (isNaN(numValue)) return '0';
   
-  return numValue.toLocaleString('en-US', {
+  console.log('formatNumberWithCommas input:', value, 'parsed:', numValue);
+  
+  // Force US locale formatting with explicit options
+  const formatted = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
+    maximumFractionDigits: 2,
+    useGrouping: true
+  }).format(numValue);
+  
+  console.log('formatNumberWithCommas output:', formatted);
+  return formatted;
 };
 
 export const removeCommas = (value: string): string => {
-  return value.replace(/,/g, '');
+  const cleaned = value.replace(/,/g, '');
+  console.log('removeCommas input:', value, 'output:', cleaned);
+  return cleaned;
 };
 
 // Function to format numbers with or without decimals
@@ -22,18 +30,26 @@ export const formatNumberWithDecimals = (value: string | number, showDecimals: b
   const numValue = typeof value === 'string' ? parseFloat(value) : value;
   if (isNaN(numValue)) return '0';
   
+  console.log('formatNumberWithDecimals input:', value, 'parsed:', numValue, 'showDecimals:', showDecimals);
+  
   if (showDecimals) {
-    return numValue.toLocaleString('en-US', {
+    const formatted = new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+      maximumFractionDigits: 2,
+      useGrouping: true
+    }).format(numValue);
+    console.log('formatNumberWithDecimals (with decimals) output:', formatted);
+    return formatted;
   } else {
     // Round up to nearest whole number and format with thousands separators
     const roundedValue = Math.ceil(numValue);
-    return roundedValue.toLocaleString('en-US', {
+    const formatted = new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    });
+      maximumFractionDigits: 0,
+      useGrouping: true
+    }).format(roundedValue);
+    console.log('formatNumberWithDecimals (no decimals) output:', formatted);
+    return formatted;
   }
 };
 
@@ -42,6 +58,8 @@ export const formatInputNumber = (value: string, isAtEnd: boolean = false, showD
   // Remove all commas first
   const cleanValue = removeCommas(value);
   
+  console.log('formatInputNumber input:', value, 'cleaned:', cleanValue, 'isAtEnd:', isAtEnd, 'showDecimals:', showDecimals);
+  
   if (!cleanValue || cleanValue === '0') return showDecimals ? '0' : '0';
   
   const numValue = parseFloat(cleanValue);
@@ -49,19 +67,28 @@ export const formatInputNumber = (value: string, isAtEnd: boolean = false, showD
   
   // If decimals are disabled, format as whole number with commas
   if (!showDecimals) {
-    return Math.floor(numValue).toLocaleString('en-US', {
+    const formatted = new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    });
+      maximumFractionDigits: 0,
+      useGrouping: true
+    }).format(Math.floor(numValue));
+    console.log('formatInputNumber (no decimals) output:', formatted);
+    return formatted;
   }
   
   // If cursor is at the end and user is typing, don't force decimal places
   if (isAtEnd && !cleanValue.includes('.')) {
-    return numValue.toLocaleString('en-US');
+    const formatted = new Intl.NumberFormat('en-US', {
+      useGrouping: true
+    }).format(numValue);
+    console.log('formatInputNumber (at end, no decimal) output:', formatted);
+    return formatted;
   }
   
   // For other cases, use standard formatting
-  return formatNumberWithCommas(cleanValue);
+  const result = formatNumberWithCommas(cleanValue);
+  console.log('formatInputNumber (standard) output:', result);
+  return result;
 };
 
 // Function to calculate cursor position after formatting

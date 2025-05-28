@@ -36,14 +36,18 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     const input = inputRef.current;
     if (!input) return;
     
+    console.log('CurrencyInput handleAmountChange raw input:', value);
+    
     const cursorPosition = input.selectionStart || 0;
     const isAtEnd = cursorPosition === value.length;
     
     // Remove commas for processing
     const cleanValue = removeCommas(value);
+    console.log('CurrencyInput handleAmountChange cleaned value:', cleanValue);
     
     // Allow empty input
     if (cleanValue === '') {
+      console.log('CurrencyInput handleAmountChange: empty input, calling onAmountChange with empty string');
       onAmountChange?.('');
       return;
     }
@@ -51,13 +55,23 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     // Input validation based on decimal setting
     if (showDecimals) {
       // Allow numbers and one decimal point
-      if (!/^\d*\.?\d*$/.test(cleanValue)) return;
-      if ((cleanValue.match(/\./g) || []).length > 1) return;
+      if (!/^\d*\.?\d*$/.test(cleanValue)) {
+        console.log('CurrencyInput handleAmountChange: invalid input for decimals mode');
+        return;
+      }
+      if ((cleanValue.match(/\./g) || []).length > 1) {
+        console.log('CurrencyInput handleAmountChange: multiple decimal points');
+        return;
+      }
     } else {
       // Allow only whole numbers (no decimal point)
-      if (!/^\d+$/.test(cleanValue)) return;
+      if (!/^\d+$/.test(cleanValue)) {
+        console.log('CurrencyInput handleAmountChange: invalid input for no decimals mode');
+        return;
+      }
     }
     
+    console.log('CurrencyInput handleAmountChange: calling onAmountChange with:', cleanValue);
     onAmountChange?.(cleanValue);
     
     // Handle cursor positioning after formatting
@@ -72,6 +86,8 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
 
   // Format the display value based on focus state and decimal setting
   const getDisplayValue = () => {
+    console.log('CurrencyInput getDisplayValue called with amount:', amount);
+    
     if (!amount) return '';
     const input = inputRef.current;
     const isFocused = input && document.activeElement === input;
@@ -79,10 +95,14 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     
     // When focused, use input-friendly formatting
     if (isFocused) {
-      return formatInputNumber(amount, isAtEnd, showDecimals);
+      const result = formatInputNumber(amount, isAtEnd, showDecimals);
+      console.log('CurrencyInput getDisplayValue (focused):', result);
+      return result;
     } else {
       // When not focused, use display formatting
-      return formatNumberWithDecimals(amount, showDecimals);
+      const result = formatNumberWithDecimals(amount, showDecimals);
+      console.log('CurrencyInput getDisplayValue (not focused):', result);
+      return result;
     }
   };
 

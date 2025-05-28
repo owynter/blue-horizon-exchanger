@@ -2,7 +2,7 @@
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { useCurrencyInput } from '@/hooks/useCurrencyInput';
-import { getCurrencyDisplayValue } from '@/utils/currencyDisplayUtils';
+import { formatNumberWithDecimals } from '@/lib/numberUtils';
 import CurrencyInputControls from './CurrencyInputControls';
 import CurrencyRemoveButton from './CurrencyRemoveButton';
 import CurrencyDropdown from './CurrencyDropdown';
@@ -36,11 +36,18 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     onAmountChange
   });
 
-  // Get display value based on focus state
+  // Get display value: raw value when focused, formatted when not focused
   const getDisplayValue = () => {
     const input = inputRef.current;
     const isFocused = input && document.activeElement === input;
-    return getCurrencyDisplayValue(amount, showDecimals, isFocused);
+    
+    if (isFocused || !amount) {
+      // Show raw value while typing or when empty
+      return amount;
+    } else {
+      // Format when not focused
+      return formatNumberWithDecimals(amount, showDecimals);
+    }
   };
 
   return (

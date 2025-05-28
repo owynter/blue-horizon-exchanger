@@ -1,5 +1,5 @@
 
-import { formatNumberWithCommas, formatNumberWithDecimals } from '@/lib/numberUtils';
+import { formatNumberWithDecimals } from '@/lib/numberUtils';
 
 export const getCurrencyDisplayValue = (
   amount: string,
@@ -11,8 +11,8 @@ export const getCurrencyDisplayValue = (
   if (!amount) return '';
   
   if (isFocused) {
-    // While focused, only add commas but preserve decimal structure
-    return formatNumberWithCommas(amount);
+    // While focused, show raw value (no formatting)
+    return amount;
   } else {
     // When not focused, use full formatting
     return formatNumberWithDecimals(amount, showDecimals);

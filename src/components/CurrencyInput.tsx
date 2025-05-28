@@ -35,6 +35,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   };
 
   const displayAmount = isBase ? formatNumberWithCommas(amount) : amount;
+  const selectedCurrency = currencies.find(c => c.code === currency);
 
   return (
     <div className="text-sm mb-6">
@@ -65,15 +66,17 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
             readOnly={!isBase}
           />
           
-          <div className="relative h-full flex items-center">
+          <div className="relative h-full flex items-center flex-1">
             <Select value={currency} onValueChange={onCurrencyChange}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SelectTrigger className="w-40 h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4">
+                  <SelectTrigger className="w-full h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4">
                     <SelectValue>
-                      <div className="flex items-center gap-3">
-                        <span style={{ fontSize: '1.5rem' }}>{currencies.find(c => c.code === currency)?.flag}</span>
-                        <span className="font-semibold text-stone-950 font-sora" style={{ fontSize: '1.125rem' }}>{currency}</span>
+                      <div className="flex items-center gap-2">
+                        <span style={{ fontSize: '1.5rem' }}>{selectedCurrency?.flag}</span>
+                        <span className="font-semibold text-stone-950 font-sora text-sm">
+                          {selectedCurrency?.name} ({currency})
+                        </span>
                       </div>
                     </SelectValue>
                   </SelectTrigger>
@@ -85,9 +88,11 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
               <SelectContent className="bg-white border-blue-200 shadow-xl z-50">
                 {currencies.map((curr) => (
                   <SelectItem key={curr.code} value={curr.code} className="hover:bg-blue-50">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <span style={{ fontSize: '1.5rem' }}>{curr.flag}</span>
-                      <span className="font-medium font-sora" style={{ fontSize: '1.125rem' }}>{curr.code}</span>
+                      <span className="font-medium font-sora text-sm">
+                        {curr.name} ({curr.code})
+                      </span>
                     </div>
                   </SelectItem>
                 ))}

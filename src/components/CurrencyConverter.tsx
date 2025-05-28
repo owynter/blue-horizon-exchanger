@@ -5,6 +5,8 @@ import BaseCurrencySection from './BaseCurrencySection';
 import TargetCurrenciesSection from './TargetCurrenciesSection';
 import { currencies, calculateConversion, calculateCrossCurrencyConversion, TargetCurrency } from '@/data/CurrencyData';
 
+const MAX_CURRENCIES = 10;
+
 const CurrencyConverter: React.FC = () => {
   const [baseAmount, setBaseAmount] = useState('1000');
   const [baseCurrency, setBaseCurrency] = useState('USD');
@@ -43,6 +45,16 @@ const CurrencyConverter: React.FC = () => {
   };
 
   const addMultipleCurrencies = (currencyCodes: string[]) => {
+    // Check if adding these currencies would exceed the limit
+    if (targetCurrencies.length + currencyCodes.length > MAX_CURRENCIES) {
+      toast({
+        title: "Currency limit reached",
+        description: `Maximum ${MAX_CURRENCIES} currencies allowed. You currently have ${targetCurrencies.length} currencies.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     const validCodes = currencyCodes.filter(code => {
       if (code === baseCurrency) {
         toast({

@@ -1,4 +1,3 @@
-
 import { formatNumberWithCommas } from '@/lib/numberUtils';
 
 export interface Currency {
@@ -28,6 +27,7 @@ export const currencies: Currency[] = [
   { code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺' },
   { code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧' },
   { code: 'JMD', name: 'Jamaican Dollar', symbol: 'J$', flag: '🇯🇲' },
+  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$', flag: '🇧🇷' },
 ];
 
 // USD-based exchange rates for more accurate conversions
@@ -42,6 +42,7 @@ export const usdExchangeRates: { [key: string]: number } = {
   EUR: 0.8855,
   GBP: 0.7825,
   JMD: 156.50,
+  BRL: 5.15,
 };
 
 // Convert any currency to USD

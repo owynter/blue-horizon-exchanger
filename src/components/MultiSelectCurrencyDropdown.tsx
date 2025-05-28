@@ -5,7 +5,7 @@ import { Currency } from '@/data/CurrencyData';
 
 interface MultiSelectCurrencyDropdownProps {
   availableCurrencies: Currency[];
-  onAddCurrencies: (currencyCodes: string[]) => void;
+  onAddCurrencies: (currencyCode: string) => void; // Changed from string[] to string
 }
 
 const MultiSelectCurrencyDropdown: React.FC<MultiSelectCurrencyDropdownProps> = ({

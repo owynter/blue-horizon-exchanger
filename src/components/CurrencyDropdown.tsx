@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Plus, Check, ChevronDown } from 'lucide-react';
+import { Plus, ChevronDown } from 'lucide-react';
 import {
   Command,
   CommandEmpty,
@@ -21,7 +21,7 @@ import { Currency } from '@/data/CurrencyData';
 interface CurrencyDropdownProps {
   availableCurrencies: Currency[];
   onSelect?: (currencyCode: string) => void; // For single select
-  onAddMultiple?: (currencyCodes: string[]) => void; // For multi-select
+  onAddMultiple?: (currencyCode: string) => void; // Changed from string[] to string
   multiSelect?: boolean;
   placeholder?: string;
   triggerClassName?: string;

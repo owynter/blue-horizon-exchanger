@@ -28,7 +28,7 @@ interface TargetCurrenciesSectionProps {
   currencies: Currency[];
   calculateConversion: (amount: string, from: string, to: string) => string;
   availableCurrencies: Currency[];
-  onAddMultipleCurrencies: (currencyCodes: string[]) => void;
+  onAddMultipleCurrencies: (currencyCode: string) => void; // Changed from string[] to string
   getDisplayAmount: (currencyCode: string) => string;
   onTargetAmountChange: (targetId: string, amount: string) => void;
 }

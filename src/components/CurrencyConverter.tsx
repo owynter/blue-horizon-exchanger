@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -79,12 +78,11 @@ const CurrencyConverter: React.FC = () => {
         return;
       }
       
-      // Check total currency limit (base currency + target currencies)
-      const totalCurrencies = 1 + targetCurrencies.length; // 1 for base currency
-      if (totalCurrencies >= MAX_CURRENCIES) {
+      // Check target currency limit (10 target currencies allowed)
+      if (targetCurrencies.length >= MAX_CURRENCIES) {
         toast({
           title: "Currency limit reached",
-          description: `Maximum ${MAX_CURRENCIES} currencies allowed in total.`,
+          description: `Maximum ${MAX_CURRENCIES} target currencies allowed.`,
           variant: "destructive",
         });
         return;

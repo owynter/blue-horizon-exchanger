@@ -1,10 +1,10 @@
 import React from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { X, GripVertical } from 'lucide-react';
 import { formatNumberWithCommas, removeCommas } from '@/lib/numberUtils';
+import CurrencyDropdown from './CurrencyDropdown';
 
 interface CurrencyInputProps {
   amount: string;
@@ -63,34 +63,14 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
             style={{ fontSize: '1.25rem' }}
           />
           
-          <div className="relative h-full flex items-center flex-1">
-            <Select value={currency} onValueChange={onCurrencyChange}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <SelectTrigger className="w-full h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4">
-                    <SelectValue>
-                      <div className="flex items-center gap-3">
-                        <span style={{ fontSize: '1.5rem' }}>{currencies.find(c => c.code === currency)?.flag}</span>
-                        <span className="font-semibold text-stone-950 font-sora" style={{ fontSize: '1.125rem' }}>{currency}</span>
-                      </div>
-                    </SelectValue>
-                  </SelectTrigger>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{isBase ? 'Select your base currency' : 'Change currency'}</p>
-                </TooltipContent>
-              </Tooltip>
-              <SelectContent className="bg-white border-blue-200 shadow-xl z-50 min-w-[300px]">
-                {currencies.map((curr) => (
-                  <SelectItem key={curr.code} value={curr.code} className="hover:bg-blue-50">
-                    <div className="flex items-center gap-3 w-full">
-                      <span style={{ fontSize: '1.5rem' }}>{curr.flag}</span>
-                      <span className="font-medium font-sora" style={{ fontSize: '1rem' }}>{curr.name} ({curr.code})</span>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="relative h-full flex items-center w-40">
+            <CurrencyDropdown
+              availableCurrencies={currencies}
+              onSelect={onCurrencyChange}
+              selectedCurrency={currency}
+              placeholder={isBase ? 'Select your base currency' : 'Change currency'}
+              triggerClassName="w-full h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4"
+            />
           </div>
         </div>
         

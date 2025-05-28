@@ -6,15 +6,19 @@ export const getCurrencyDisplayValue = (
   showDecimals: boolean,
   isFocused: boolean
 ): string => {
-  console.log('getCurrencyDisplayValue called with amount:', amount);
+  console.log('getCurrencyDisplayValue called with amount:', amount, 'showDecimals:', showDecimals, 'isFocused:', isFocused);
   
   if (!amount) return '';
   
   if (isFocused) {
-    // While focused, show raw value (no formatting)
-    return amount;
+    // While focused, show raw value but cleaned of commas
+    const cleanValue = amount.replace(/,/g, '');
+    console.log('Focused: returning clean value:', cleanValue);
+    return cleanValue;
   } else {
     // When not focused, use full formatting
-    return formatNumberWithDecimals(amount, showDecimals);
+    const formatted = formatNumberWithDecimals(amount, showDecimals);
+    console.log('Not focused: returning formatted value:', formatted);
+    return formatted;
   }
 };

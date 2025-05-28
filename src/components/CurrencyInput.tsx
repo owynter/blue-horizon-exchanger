@@ -102,13 +102,13 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
             style={{ fontSize: '1.25rem' }}
           />
           
-          <div className="relative h-full flex items-center w-40">
+          <div className="relative h-full flex items-center">
             <CurrencyDropdown
               availableCurrencies={currencies}
               onSelect={onCurrencyChange}
               selectedCurrency={currency}
               placeholder={isBase ? 'Select your base currency' : 'Change currency'}
-              triggerClassName="w-full h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-2 text-sm"
+              triggerClassName="h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-2 text-sm"
             />
           </div>
         </div>

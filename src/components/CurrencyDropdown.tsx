@@ -84,7 +84,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                   className={`justify-between ${triggerClassName} ${
                     multiSelect 
                       ? "flex-1 border-blue-200 hover:border-blue-300 font-sora" 
-                      : "w-full h-full border-0 rounded-none bg-transparent border-l border-blue-200"
+                      : "border-0 rounded-none bg-transparent border-l border-blue-200"
                   }`}
                 >
                   {multiSelect ? (
@@ -117,7 +117,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
           </Tooltip>
           <PopoverContent 
             className="p-0 bg-white border-blue-200 shadow-xl z-50" 
-            align="start" 
+            align={multiSelect ? "start" : "end"}
             style={{ width: multiSelect ? 'var(--radix-popover-trigger-width)' : '400px' }}
           >
             <Command>

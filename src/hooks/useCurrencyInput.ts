@@ -1,4 +1,3 @@
-
 import { useRef } from 'react';
 import { removeCommas } from '@/lib/numberUtils';
 
@@ -11,7 +10,7 @@ interface UseCurrencyInputProps {
 export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCurrencyInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Smart number building for typing at the end
+  // Enhanced smart number building for decimal shifting
   const buildSmartNumber = (currentValue: string, newInput: string): string | null => {
     if (!showDecimals) return null;
     
@@ -23,7 +22,21 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
       const wholePart = parts[0];
       const decimalPart = parts[1] || '';
       
-      // For "0.00" + new digits, shift left and add new digit
+      // Handle any number with exactly 2 decimal places
+      if (decimalPart.length === 2) {
+        // Combine all digits: whole part + decimal part + new input
+        const allDigits = wholePart + decimalPart + newInput;
+        
+        // Split to keep last 2 digits as decimals
+        const newDecimalPart = allDigits.slice(-2);
+        const newWholePart = allDigits.slice(0, -2) || '0';
+        
+        const result = `${newWholePart}.${newDecimalPart}`;
+        console.log('Decimal shifting:', cleanCurrent, '+', newInput, '->', result);
+        return result;
+      }
+      
+      // For "0.00" + new digits, shift left and add new digit (existing behavior)
       if (wholePart === '0' && decimalPart.length === 2) {
         const newDigits = newInput;
         const allDigits = decimalPart + newDigits;

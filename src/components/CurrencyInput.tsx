@@ -30,7 +30,14 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   dragHandleProps,
   showDecimals
 }) => {
-  const { inputRef, handleAmountChange } = useCurrencyInput({
+  const { 
+    inputRef, 
+    handleAmountChange, 
+    handleFocus, 
+    handleBlur, 
+    isFocused, 
+    hasStartedTyping 
+  } = useCurrencyInput({
     amount,
     showDecimals,
     onAmountChange
@@ -38,17 +45,17 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
 
   // Get display value: raw value when focused, formatted when not focused
   const getDisplayValue = () => {
-    const input = inputRef.current;
-    const isFocused = input && document.activeElement === input;
-    
-    if (isFocused || !amount) {
+    if (isFocused) {
       // Show raw value while typing or when empty
-      return amount;
+      return amount.replace(/,/g, ''); // Remove commas for editing
     } else {
       // Format when not focused
       return formatNumberWithDecimals(amount, showDecimals);
     }
   };
+
+  // Determine if text should be transparent
+  const shouldBeTransparent = isFocused && !hasStartedTyping && amount;
 
   return (
     <div className="text-sm mb-6">
@@ -65,8 +72,12 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
             type="text"
             value={getDisplayValue()}
             onChange={(e) => handleAmountChange(e.target.value)}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             placeholder={showDecimals ? "0.00" : "0"}
-            className="text-stone-950 font-inter font-semibold py-0 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full"
+            className={`text-stone-950 font-inter font-semibold py-0 px-4 flex-1 border-0 rounded-none focus:ring-0 focus:border-0 h-full transition-opacity duration-200 ${
+              shouldBeTransparent ? 'text-opacity-30' : 'text-opacity-100'
+            }`}
             style={{ fontSize: '1.25rem' }}
           />
           

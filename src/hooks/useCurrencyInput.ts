@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+
+import { useRef, useState } from 'react';
 
 interface UseCurrencyInputProps {
   amount: string;
@@ -8,6 +9,9 @@ interface UseCurrencyInputProps {
 
 export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCurrencyInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
+  const [originalValue, setOriginalValue] = useState('');
 
   const sanitizeInput = (value: string): string => {
     console.log('sanitizeInput called with:', value);
@@ -47,8 +51,35 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
     return cleaned;
   };
 
+  const handleFocus = () => {
+    console.log('Input focused, storing original value:', amount);
+    setIsFocused(true);
+    setHasStartedTyping(false);
+    setOriginalValue(amount);
+  };
+
+  const handleBlur = () => {
+    console.log('Input blurred, hasStartedTyping:', hasStartedTyping);
+    setIsFocused(false);
+    
+    // If user didn't type anything, restore original value
+    if (!hasStartedTyping && originalValue !== amount) {
+      console.log('No typing occurred, restoring original value:', originalValue);
+      onAmountChange?.(originalValue);
+    }
+    
+    setHasStartedTyping(false);
+    setOriginalValue('');
+  };
+
   const handleAmountChange = (value: string) => {
     console.log('handleAmountChange called with:', value);
+    
+    // Mark that user has started typing
+    if (isFocused && !hasStartedTyping) {
+      console.log('User started typing');
+      setHasStartedTyping(true);
+    }
     
     // Allow empty input
     if (value === '') {
@@ -76,6 +107,10 @@ export const useCurrencyInput = ({ amount, showDecimals, onAmountChange }: UseCu
 
   return {
     inputRef,
-    handleAmountChange
+    handleAmountChange,
+    handleFocus,
+    handleBlur,
+    isFocused,
+    hasStartedTyping
   };
 };

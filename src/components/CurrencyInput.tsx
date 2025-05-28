@@ -3,6 +3,7 @@ import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { X, GripVertical } from 'lucide-react';
 import { formatNumberWithCommas, removeCommas } from '@/lib/numberUtils';
 
@@ -40,9 +41,16 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
       <div className="flex items-center gap-3 h-16">
         {/* Drag Handle - only for non-base currencies */}
         {!isBase && (
-          <div {...dragHandleProps} className="cursor-move text-blue-400 hover:text-blue-600 flex-shrink-0">
-            <GripVertical size={20} />
-          </div>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div {...dragHandleProps} className="cursor-move text-blue-400 hover:text-blue-600 flex-shrink-0">
+                <GripVertical size={20} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Drag to reorder currencies</p>
+            </TooltipContent>
+          </Tooltip>
         )}
         
         {/* Main Input Container */}
@@ -59,14 +67,21 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
           
           <div className="relative h-full flex items-center">
             <Select value={currency} onValueChange={onCurrencyChange}>
-              <SelectTrigger className="w-40 h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4">
-                <SelectValue>
-                  <div className="flex items-center gap-3">
-                    <span style={{ fontSize: '1.5rem' }}>{currencies.find(c => c.code === currency)?.flag}</span>
-                    <span className="font-semibold text-stone-950 font-sora" style={{ fontSize: '1.125rem' }}>{currency}</span>
-                  </div>
-                </SelectValue>
-              </SelectTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SelectTrigger className="w-40 h-full border-0 rounded-none bg-transparent border-l border-blue-200 flex items-center gap-2 px-4">
+                    <SelectValue>
+                      <div className="flex items-center gap-3">
+                        <span style={{ fontSize: '1.5rem' }}>{currencies.find(c => c.code === currency)?.flag}</span>
+                        <span className="font-semibold text-stone-950 font-sora" style={{ fontSize: '1.125rem' }}>{currency}</span>
+                      </div>
+                    </SelectValue>
+                  </SelectTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{isBase ? 'Select your base currency' : 'Change currency'}</p>
+                </TooltipContent>
+              </Tooltip>
               <SelectContent className="bg-white border-blue-200 shadow-xl z-50">
                 {currencies.map((curr) => (
                   <SelectItem key={curr.code} value={curr.code} className="hover:bg-blue-50">
@@ -83,14 +98,21 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
         
         {/* Remove Button - only for non-base currencies */}
         {!isBase && onRemove && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onRemove}
-            className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 h-auto flex-shrink-0"
-          >
-            <X size={16} />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onRemove}
+                className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 h-auto flex-shrink-0"
+              >
+                <X size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Remove this currency</p>
+            </TooltipContent>
+          </Tooltip>
         )}
       </div>
     </div>

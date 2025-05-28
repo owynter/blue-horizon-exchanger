@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Plus, Check } from 'lucide-react';
 import {
   Command,
@@ -55,18 +56,25 @@ const MultiSelectCurrencyDropdown: React.FC<MultiSelectCurrencyDropdownProps> = 
       
       <div className="flex gap-3">
         <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className="flex-1 justify-start border-blue-200 hover:border-blue-300 font-sora"
-            >
-              <Plus size={16} className="mr-2" />
-              {selectedCurrencies.length > 0 
-                ? `${selectedCurrencies.length} selected` 
-                : "Select currencies to add"
-              }
-            </Button>
-          </PopoverTrigger>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="flex-1 justify-start border-blue-200 hover:border-blue-300 font-sora"
+                >
+                  <Plus size={16} className="mr-2" />
+                  {selectedCurrencies.length > 0 
+                    ? `${selectedCurrencies.length} selected` 
+                    : "Select currencies to add"
+                  }
+                </Button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Select currencies to add to your converter</p>
+            </TooltipContent>
+          </Tooltip>
           <PopoverContent className="p-0" align="start" style={{ width: 'var(--radix-popover-trigger-width)' }}>
             <Command>
               <CommandInput placeholder="Search currencies..." className="font-sora" />

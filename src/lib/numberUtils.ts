@@ -28,7 +28,7 @@ export const formatNumberWithDecimals = (value: string | number, showDecimals: b
       maximumFractionDigits: 2
     });
   } else {
-    // Round up to nearest whole number
+    // Round up to nearest whole number and format with thousands separators
     const roundedValue = Math.ceil(numValue);
     return roundedValue.toLocaleString('en-US', {
       minimumFractionDigits: 0,

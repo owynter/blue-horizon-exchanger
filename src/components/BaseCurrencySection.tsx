@@ -45,7 +45,7 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
             <Switch
               checked={showDecimals}
               onCheckedChange={onDecimalToggle}
-              className="data-[state=unchecked]:bg-blue-200 data-[state=checked]:bg-blue-600 h-1.5 w-3 [&>span]:h-1 [&>span]:w-1 [&>span]:data-[state=checked]:translate-x-1.5"
+              className="data-[state=unchecked]:bg-blue-200 data-[state=checked]:bg-blue-600 h-1.5 w-3 [&>span]:h-1 [&>span]:w-1 [&>span]:data-[state=checked]:translate-x-1.5 [&>span]:bg-white [&>span]:border-blue-300 [&>span]:border"
             />
           </TooltipTrigger>
           <TooltipContent>

@@ -263,72 +263,66 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Testimonial 1 */}
-            <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100">
-              <div className="flex items-center mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-                  alt="Sarah Chen" 
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div className="ml-4">
-                  <h4 className="font-semibold text-gray-900 font-sora">Sarah Chen</h4>
-                  <p className="text-sm text-gray-600 font-inter">Financial Advisor</p>
+            <div className="text-gray-500 border-2 border-zinc-200 border-solid rounded-2xl p-8">
+              <div className="items-center flex">
+                <div className="relative w-full h-14 max-w-[3.50rem] mr-4 rounded-full">
+                  <img 
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                    alt="Sarah Chen" 
+                    className="w-14 h-14 rounded-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-gray-900 font-semibold font-sora">Sarah Chen</h3>
+                  <p className="text-sm font-inter">Financial Advisor</p>
                 </div>
               </div>
+              <div className="bg-zinc-200 w-full h-0.5 my-6"></div>
               <p className="text-gray-700 font-inter leading-relaxed">
-                "Blue Horizon's currency converter has become my go-to tool for client consultations. The real-time rates and favorites feature save me so much time during international investment planning."
+                Blue Horizon's currency converter has become my go-to tool for client consultations. The real-time rates and favorites feature save me so much time during international investment planning.
               </p>
-              <div className="flex mt-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                ))}
-              </div>
             </div>
 
             {/* Testimonial 2 */}
-            <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100">
-              <div className="flex items-center mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
-                  alt="Marcus Rodriguez" 
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div className="ml-4">
-                  <h4 className="font-semibold text-gray-900 font-sora">Marcus Rodriguez</h4>
-                  <p className="text-sm text-gray-600 font-inter">Small Business Owner</p>
+            <div className="text-gray-500 border-2 border-zinc-200 border-solid rounded-2xl p-8">
+              <div className="items-center flex">
+                <div className="relative w-full h-14 max-w-[3.50rem] mr-4 rounded-full">
+                  <img 
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                    alt="Marcus Rodriguez" 
+                    className="w-14 h-14 rounded-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-gray-900 font-semibold font-sora">Marcus Rodriguez</h3>
+                  <p className="text-sm font-inter">Small Business Owner</p>
                 </div>
               </div>
+              <div className="bg-zinc-200 w-full h-0.5 my-6"></div>
               <p className="text-gray-700 font-inter leading-relaxed">
-                "As someone who deals with international suppliers daily, having access to 170+ currencies with crypto support is game-changing. The interface is clean and incredibly fast."
+                As someone who deals with international suppliers daily, having access to 170+ currencies with crypto support is game-changing. The interface is clean and incredibly fast.
               </p>
-              <div className="flex mt-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                ))}
-              </div>
             </div>
 
             {/* Testimonial 3 */}
-            <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100">
-              <div className="flex items-center mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1494790108755-2616b332c142?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
-                  alt="Emma Thompson" 
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div className="ml-4">
-                  <h4 className="font-semibold text-gray-900 font-sora">Emma Thompson</h4>
-                  <p className="text-sm text-gray-600 font-inter">Investment Analyst</p>
+            <div className="text-gray-500 border-2 border-zinc-200 border-solid rounded-2xl p-8">
+              <div className="items-center flex">
+                <div className="relative w-full h-14 max-w-[3.50rem] mr-4 rounded-full">
+                  <img 
+                    src="https://images.unsplash.com/photo-1494790108755-2616b332c142?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                    alt="Emma Thompson" 
+                    className="w-14 h-14 rounded-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-gray-900 font-semibold font-sora">Emma Thompson</h3>
+                  <p className="text-sm font-inter">Investment Analyst</p>
                 </div>
               </div>
+              <div className="bg-zinc-200 w-full h-0.5 my-6"></div>
               <p className="text-gray-700 font-inter leading-relaxed">
-                "Finally, a financial calculator suite that gets it right. Looking forward to the investment and loan calculators - if they're as good as the currency converter, they'll be amazing!"
+                Finally, a financial calculator suite that gets it right. Looking forward to the investment and loan calculators - if they're as good as the currency converter, they'll be amazing!
               </p>
-              <div className="flex mt-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                ))}
-              </div>
             </div>
           </div>
         </div>

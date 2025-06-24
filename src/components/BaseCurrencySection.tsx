@@ -27,7 +27,7 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-blue-900 font-sora">
+        <label className="block text-lg font-semibold text-blue-900 mb-4 font-sora">
           Base Currency
         </label>
         <CurrencyInput

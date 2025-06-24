@@ -65,7 +65,7 @@ const TargetCurrenciesSection: React.FC<TargetCurrenciesSectionProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div>
       {/* Converted To Heading - only show when there are target currencies */}
       {targetCurrencies.length > 0 && (
         <h3 className="text-lg font-semibold text-blue-900 mb-4 font-sora">Converted To</h3>

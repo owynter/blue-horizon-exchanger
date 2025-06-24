@@ -328,193 +328,155 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Mobile App Showcase Section */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Content Side */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 font-sora">
-                  Get support through our application.
-                </h2>
-                <p className="text-lg text-gray-600 font-inter leading-relaxed">
-                  Access all your favorite financial tools on the go. Our mobile-optimized platform delivers the same powerful calculations with an intuitive touch-friendly interface.
-                </p>
-              </div>
-
-              {/* App Store Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="flex items-center gap-3 bg-black text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-colors">
-                  <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                    </svg>
-                  </div>
-                  <div className="text-left">
-                    <div className="text-xs text-gray-300">Download on the</div>
-                    <div className="text-sm font-semibold">App Store</div>
-                  </div>
-                </button>
-
-                <button className="flex items-center gap-3 bg-black text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition-colors">
-                  <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.92 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
-                    </svg>
-                  </div>
-                  <div className="text-left">
-                    <div className="text-xs text-gray-300">Get it on</div>
-                    <div className="text-sm font-semibold">Play Store</div>
-                  </div>
-                </button>
-              </div>
+      {/* Enhanced CTA Section with Phone Mockup */}
+      <section className="py-16 bg-white">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[90rem] mx-auto bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 rounded-3xl p-8 lg:p-12 relative overflow-hidden">
+            {/* Background Effects */}
+            <div className="absolute inset-0 opacity-15">
+              <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+              <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-500 to-pink-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-gradient-to-t from-yellow-500 to-orange-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-2000"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
             </div>
 
-            {/* Phone Mockup Side */}
-            <div className="relative">
-              {/* Background Gradient Circles */}
-              <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full opacity-20 blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-400 to-purple-600 rounded-full opacity-20 blur-3xl"></div>
-              
-              {/* iPhone Container - Proper iPhone 14 Pro proportions (19.5:9 aspect ratio) */}
-              <div className="relative z-10 mx-auto" style={{ width: '320px', height: '693px' }}>
-                <div className="bg-black rounded-[3rem] p-2 shadow-2xl w-full h-full">
-                  {/* Phone Screen */}
-                  <div className="bg-white rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col">
-                    {/* Status Bar with Dynamic Island */}
-                    <div className="bg-white px-6 py-3 flex justify-between items-center text-sm font-medium relative">
-                      {/* Dynamic Island */}
-                      <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-full"></div>
-                      <span className="pt-4">9:41</span>
-                      <div className="flex items-center gap-1 pt-4">
-                        <div className="flex gap-1">
-                          <div className="w-1 h-1 bg-black rounded-full"></div>
-                          <div className="w-1 h-1 bg-black rounded-full"></div>
-                          <div className="w-1 h-1 bg-black rounded-full"></div>
-                          <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-                        </div>
-                        <svg className="w-6 h-4 ml-1" viewBox="0 0 24 16" fill="none">
-                          <rect x="2" y="3" width="20" height="10" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-                          <path d="M22 7v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        </svg>
-                      </div>
-                    </div>
+            {/* Inner content container with constrained width */}
+            <div className="max-w-[80rem] mx-auto relative">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                {/* CTA Content - Left Side */}
+                <div className="text-left">
+                  <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-sora">
+                    Start Making Smarter
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-cyan-200">
+                      Financial Decisions Today
+                    </span>
+                  </h2>
+                  <p className="text-xl text-blue-100 mb-8 font-inter leading-relaxed">
+                    Join over 5,000+ users who rely on Blue Horizon for accurate financial calculations. 
+                    Start with our comprehensive currency converter and discover the difference precision makes.
+                  </p>
+                  
+                  <Link to="/currency-converter">
+                    <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 font-inter">
+                      Try Currency Converter Free
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                </div>
 
-                    {/* App Content */}
-                    <div className="px-6 pb-8 flex-1 overflow-hidden">
-                      {/* Header */}
-                      <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-xl font-bold font-sora">Currency Converter</h3>
-                        <button className="text-blue-600 font-medium">Edit</button>
-                      </div>
-
-                      {/* Main Currency Card */}
-                      <div className="bg-blue-50 rounded-2xl p-4 mb-4 border-2 border-blue-200">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <img 
-                              src="https://flagcdn.com/w40/ua.png" 
-                              alt="Ukraine" 
-                              className="w-6 h-4 rounded-sm object-cover"
-                              onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.nextElementSibling.style.display = 'inline';
-                              }}
-                            />
-                            <span className="text-xl hidden">🇺🇦</span>
-                            <span className="font-semibold">UAH</span>
+                {/* Phone Mockup - Right Side */}
+                <div className="relative lg:justify-self-end">
+                  {/* iPhone Container - 320x600 aspect ratio, positioned to rise from bottom */}
+                  <div className="relative" style={{ transform: 'translateY(10rem)', width: '320px', height: '600px' }}>
+                    <div className="bg-black rounded-[2.5rem] p-2 shadow-2xl w-full h-full">
+                      {/* Phone Screen */}
+                      <div className="bg-white rounded-[2rem] overflow-hidden w-full h-full flex flex-col">
+                        {/* Status Bar with Dynamic Island */}
+                        <div className="bg-white px-5 py-3 flex justify-between items-center text-sm font-medium relative">
+                          {/* Dynamic Island */}
+                          <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-28 h-5 bg-black rounded-full"></div>
+                          <span className="pt-4">9:41</span>
+                          <div className="flex items-center gap-1 pt-4">
+                            <div className="flex gap-1">
+                              <div className="w-1 h-1 bg-black rounded-full"></div>
+                              <div className="w-1 h-1 bg-black rounded-full"></div>
+                              <div className="w-1 h-1 bg-black rounded-full"></div>
+                              <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+                            </div>
+                            <svg className="w-5 h-3 ml-1" viewBox="0 0 24 16" fill="none">
+                              <rect x="2" y="3" width="20" height="10" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                              <path d="M22 7v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                            </svg>
                           </div>
-                          <span className="text-2xl font-bold">10 000,00 ₴</span>
                         </div>
-                        <p className="text-sm text-gray-600">Ukrainian Hryvnia</p>
-                      </div>
 
-                      {/* Conversion Results */}
-                      <div className="space-y-3">
-                        {[
-                          { flagUrl: 'https://flagcdn.com/w40/us.png', fallback: '🇺🇸', code: 'USD', amount: '247,19 $', rate: '1 USD = 40,46 UAH', name: 'United States Dollar' },
-                          { flagUrl: 'https://flagcdn.com/w40/pl.png', fallback: '🇵🇱', code: 'PLN', amount: '977,48 zł', rate: '1 PLN = 10,42 UAH', name: 'Polish Złoty' },
-                          { flagUrl: 'https://flagcdn.com/w40/eu.png', fallback: '🇪🇺', code: 'EUR', amount: '227,29 €', rate: '1 EUR = 44,78 UAH', name: 'Euro' },
-                          { flagUrl: 'https://flagcdn.com/w40/jp.png', fallback: '🇯🇵', code: 'JPY', amount: '38 877,38 ¥', rate: '1 JPY = 0,26 UAH', name: 'Japan Yen' },
-                          { flagUrl: 'https://flagcdn.com/w40/gb.png', fallback: '🇬🇧', code: 'GBP', amount: '193,74 £', rate: '1 GBP = 53,16 UAH', name: 'British Pound' }
-                        ].map((currency, index) => (
-                          <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
-                            <div className="flex items-center gap-3">
-                              <div className="relative w-6 h-4">
+                        {/* App Content */}
+                        <div className="px-5 pb-6 flex-1 overflow-hidden">
+                          {/* Header */}
+                          <div className="flex items-center justify-between mb-5">
+                            <h3 className="text-lg font-bold font-sora">Currency Converter</h3>
+                            <button className="text-blue-600 font-medium text-sm">Edit</button>
+                          </div>
+
+                          {/* Main Currency Card */}
+                          <div className="bg-blue-50 rounded-xl p-3 mb-4 border-2 border-blue-200">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
                                 <img 
-                                  src={currency.flagUrl} 
-                                  alt={currency.name} 
-                                  className="w-6 h-4 rounded-sm object-cover"
+                                  src="https://flagcdn.com/w40/us.png" 
+                                  alt="United States" 
+                                  className="w-5 h-3 rounded-sm object-cover"
                                   onError={(e) => {
-                                    e.currentTarget.style.display = 'none';
-                                    e.currentTarget.nextElementSibling.style.display = 'inline';
+                                    const target = e.currentTarget as HTMLImageElement;
+                                    target.style.display = 'none';
+                                    const nextElement = target.nextElementSibling as HTMLElement;
+                                    if (nextElement) nextElement.style.display = 'inline';
                                   }}
                                 />
-                                <span className="text-lg hidden">{currency.fallback}</span>
+                                <span className="text-lg hidden">🇺🇸</span>
+                                <span className="font-semibold text-sm">USD</span>
                               </div>
-                              <div>
-                                <div className="font-semibold text-sm">{currency.code}</div>
-                                <div className="text-xs text-gray-500">{currency.rate}</div>
-                              </div>
+                              <span className="text-lg font-bold">1,000.00 $</span>
                             </div>
-                            <div className="text-right">
-                              <div className="font-semibold text-sm">{currency.amount}</div>
-                              <div className="text-xs text-gray-500 truncate max-w-20">{currency.name}</div>
-                            </div>
+                            <p className="text-xs text-gray-600">United States Dollar</p>
                           </div>
-                        ))}
-                      </div>
 
-                      {/* Bottom Section */}
-                      <div className="mt-6 pt-4 border-t border-gray-200">
-                        <div className="flex items-center justify-between text-sm">
-                          <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                            <span className="text-gray-600">Last update</span>
+                          {/* Conversion Results */}
+                          <div className="space-y-2">
+                            {[
+                              { flagUrl: 'https://flagcdn.com/w40/eu.png', fallback: '🇪🇺', code: 'EUR', amount: '934.50 €', rate: '1 EUR = 1.07 USD', name: 'Euro' },
+                              { flagUrl: 'https://flagcdn.com/w40/gb.png', fallback: '🇬🇧', code: 'GBP', amount: '798.20 £', rate: '1 GBP = 1.25 USD', name: 'British Pound' },
+                              { flagUrl: 'https://flagcdn.com/w40/jp.png', fallback: '🇯🇵', code: 'JPY', amount: '149,800 ¥', rate: '1 JPY = 0.0067 USD', name: 'Japanese Yen' },
+                              { flagUrl: 'https://flagcdn.com/w40/ca.png', fallback: '🇨🇦', code: 'CAD', amount: '1,359.00 $', rate: '1 CAD = 0.74 USD', name: 'Canadian Dollar' },
+                              { flagUrl: 'https://flagcdn.com/w40/au.png', fallback: '🇦🇺', code: 'AUD', amount: '1,523.00 $', rate: '1 AUD = 0.66 USD', name: 'Australian Dollar' }
+                            ].map((currency, index) => (
+                              <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                <div className="flex items-center gap-2">
+                                  <div className="relative w-5 h-3">
+                                    <img 
+                                      src={currency.flagUrl} 
+                                      alt={currency.name} 
+                                      className="w-5 h-3 rounded-sm object-cover"
+                                      onError={(e) => {
+                                        const target = e.currentTarget as HTMLImageElement;
+                                        target.style.display = 'none';
+                                        const nextElement = target.nextElementSibling as HTMLElement;
+                                        if (nextElement) nextElement.style.display = 'inline';
+                                      }}
+                                    />
+                                    <span className="text-sm hidden">{currency.fallback}</span>
+                                  </div>
+                                  <div>
+                                    <div className="font-semibold text-xs">{currency.code}</div>
+                                    <div className="text-xs text-gray-500">{currency.rate}</div>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <div className="font-semibold text-xs">{currency.amount}</div>
+                                  <div className="text-xs text-gray-500 truncate max-w-16">{currency.name}</div>
+                                </div>
+                              </div>
+                            ))}
                           </div>
-                          <span className="font-medium">12:36:21 AM, APR 22</span>
+
+                          {/* Bottom Section */}
+                          <div className="mt-4 pt-3 border-t border-gray-200">
+                            <div className="flex items-center justify-between text-xs">
+                              <div className="flex items-center gap-2">
+                                <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                                <span className="text-gray-600">Last update</span>
+                              </div>
+                              <span className="font-medium">2:47:35 PM, DEC 15</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced CTA Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-3xl p-12 text-center relative overflow-hidden">
-            {/* Background Effects */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-white to-blue-200 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-              <div className="absolute bottom-0 right-0 w-72 h-72 bg-gradient-to-tl from-white to-purple-200 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
-            </div>
-
-            <div className="relative">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-sora">
-                Start Making Smarter
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-cyan-200">
-                  Financial Decisions Today
-                </span>
-              </h2>
-              <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto font-inter leading-relaxed">
-                Join over 5,000+ users who rely on Blue Horizon for accurate financial calculations. 
-                Start with our comprehensive currency converter and discover the difference precision makes.
-              </p>
-              
-              <Link to="/currency-converter">
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-4 text-lg font-inter shadow-lg hover:shadow-xl transition-all duration-200">
-                  Try Currency Converter Free
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
             </div>
           </div>
         </div>

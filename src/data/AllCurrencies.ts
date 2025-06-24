@@ -35,7 +35,7 @@ export const allCurrencies: Currency[] = [
   { code: 'ARS', name: 'Argentine Peso', symbol: '$', flag: '🇦🇷', country: 'Argentina', type: 'fiat' },
   { code: 'AMD', name: 'Armenian Dram', symbol: '֏', flag: '🇦🇲', country: 'Armenia', type: 'fiat' },
   { code: 'AWG', name: 'Aruban Florin', symbol: 'ƒ', flag: '🇦🇼', country: 'Aruba', type: 'fiat' },
-  { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺', country: 'Australia', isFavorite: true, type: 'fiat' },
+  { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺', country: 'Australia', type: 'fiat' },
   { code: 'AZN', name: 'Azerbaijani Manat', symbol: '₼', flag: '🇦🇿', country: 'Azerbaijan', type: 'fiat' },
   { code: 'BSD', name: 'Bahamian Dollar', symbol: '$', flag: '🇧🇸', country: 'Bahamas', type: 'fiat' },
   { code: 'BHD', name: 'Bahraini Dinar', symbol: '.د.ب', flag: '🇧🇭', country: 'Bahrain', type: 'fiat' },
@@ -48,27 +48,27 @@ export const allCurrencies: Currency[] = [
   { code: 'BOB', name: 'Bolivian Boliviano', symbol: '$b', flag: '🇧🇴', country: 'Bolivia', type: 'fiat' },
   { code: 'BAM', name: 'Bosnia-Herzegovina Convertible Mark', symbol: 'KM', flag: '🇧🇦', country: 'Bosnia and Herzegovina', type: 'fiat' },
   { code: 'BWP', name: 'Botswana Pula', symbol: 'P', flag: '🇧🇼', country: 'Botswana', type: 'fiat' },
-  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$', flag: '🇧🇷', country: 'Brazil', isFavorite: true, type: 'fiat' },
-  { code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧', country: 'United Kingdom', isFavorite: true, type: 'fiat' },
+  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$', flag: '🇧🇷', country: 'Brazil', type: 'fiat' },
+  { code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧', country: 'United Kingdom', type: 'fiat' },
   { code: 'BND', name: 'Brunei Dollar', symbol: '$', flag: '🇧🇳', country: 'Brunei', type: 'fiat' },
   { code: 'BGN', name: 'Bulgarian Lev', symbol: 'лв', flag: '🇧🇬', country: 'Bulgaria', type: 'fiat' },
   { code: 'KHR', name: 'Cambodian Riel', symbol: '៛', flag: '🇰🇭', country: 'Cambodia', type: 'fiat' },
-  { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', flag: '🇨🇦', country: 'Canada', isFavorite: true, type: 'fiat' },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', flag: '🇨🇦', country: 'Canada', type: 'fiat' },
   { code: 'KYD', name: 'Cayman Islands Dollar', symbol: '$', flag: '🇰🇾', country: 'Cayman Islands', type: 'fiat' },
   { code: 'XPF', name: 'CFP Franc', symbol: '₣', flag: '🇵🇫', country: 'French Polynesia', type: 'fiat' },
-  { code: 'CLP', name: 'Chilean Peso', symbol: '$', flag: '🇨🇱', country: 'Chile', isFavorite: true, type: 'fiat' },
-  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥', flag: '🇨🇳', country: 'China', isFavorite: true, type: 'fiat' },
-  { code: 'COP', name: 'Colombian Peso', symbol: '$', flag: '🇨🇴', country: 'Colombia', isFavorite: true, type: 'fiat' },
-  { code: 'CRC', name: 'Costa Rican Colón', symbol: '₡', flag: '🇨🇷', country: 'Costa Rica', isFavorite: true, type: 'fiat' },
+  { code: 'CLP', name: 'Chilean Peso', symbol: '$', flag: '🇨🇱', country: 'Chile', type: 'fiat' },
+  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥', flag: '🇨🇳', country: 'China', type: 'fiat' },
+  { code: 'COP', name: 'Colombian Peso', symbol: '$', flag: '🇨🇴', country: 'Colombia', type: 'fiat' },
+  { code: 'CRC', name: 'Costa Rican Colón', symbol: '₡', flag: '🇨🇷', country: 'Costa Rica', type: 'fiat' },
   { code: 'HRK', name: 'Croatian Kuna', symbol: 'kn', flag: '🇭🇷', country: 'Croatia', type: 'fiat' },
   { code: 'CUP', name: 'Cuban Peso', symbol: '₱', flag: '🇨🇺', country: 'Cuba', type: 'fiat' },
   { code: 'CZK', name: 'Czech Koruna', symbol: 'Kč', flag: '🇨🇿', country: 'Czech Republic', type: 'fiat' },
   { code: 'DKK', name: 'Danish Krone', symbol: 'kr', flag: '🇩🇰', country: 'Denmark', type: 'fiat' },
-  { code: 'DOP', name: 'Dominican Peso', symbol: 'RD$', flag: '🇩🇴', country: 'Dominican Republic', isFavorite: true, type: 'fiat' },
-  { code: 'XCD', name: 'Eastern Caribbean Dollar', symbol: 'EC$', flag: '🇦🇬', country: 'Eastern Caribbean', isFavorite: true, type: 'fiat' },
+  { code: 'DOP', name: 'Dominican Peso', symbol: 'RD$', flag: '🇩🇴', country: 'Dominican Republic', type: 'fiat' },
+  { code: 'XCD', name: 'Eastern Caribbean Dollar', symbol: 'EC$', flag: '🇦🇬', country: 'Eastern Caribbean', type: 'fiat' },
   { code: 'EGP', name: 'Egyptian Pound', symbol: '£', flag: '🇪🇬', country: 'Egypt', type: 'fiat' },
   { code: 'ETB', name: 'Ethiopian Birr', symbol: 'Br', flag: '🇪🇹', country: 'Ethiopia', type: 'fiat' },
-  { code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺', country: 'European Union', isFavorite: true, type: 'fiat' },
+  { code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺', country: 'European Union', type: 'fiat' },
   { code: 'FJD', name: 'Fijian Dollar', symbol: '$', flag: '🇫🇯', country: 'Fiji', type: 'fiat' },
   { code: 'GEL', name: 'Georgian Lari', symbol: '₾', flag: '🇬🇪', country: 'Georgia', type: 'fiat' },
   { code: 'GHS', name: 'Ghanaian Cedi', symbol: '₵', flag: '🇬🇭', country: 'Ghana', type: 'fiat' },
@@ -84,8 +84,8 @@ export const allCurrencies: Currency[] = [
   { code: 'IRR', name: 'Iranian Rial', symbol: '﷼', flag: '🇮🇷', country: 'Iran', type: 'fiat' },
   { code: 'IQD', name: 'Iraqi Dinar', symbol: 'ع.د', flag: '🇮🇶', country: 'Iraq', type: 'fiat' },
   { code: 'ILS', name: 'Israeli Shekel', symbol: '₪', flag: '🇮🇱', country: 'Israel', type: 'fiat' },
-  { code: 'JMD', name: 'Jamaican Dollar', symbol: 'J$', flag: '🇯🇲', country: 'Jamaica', isFavorite: true, type: 'fiat' },
-  { code: 'JPY', name: 'Japanese Yen', symbol: '¥', flag: '🇯🇵', country: 'Japan', isFavorite: true, type: 'fiat' },
+  { code: 'JMD', name: 'Jamaican Dollar', symbol: 'J$', flag: '🇯🇲', country: 'Jamaica', type: 'fiat' },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥', flag: '🇯🇵', country: 'Japan', type: 'fiat' },
   { code: 'JOD', name: 'Jordanian Dinar', symbol: 'د.ا', flag: '🇯🇴', country: 'Jordan', type: 'fiat' },
   { code: 'KZT', name: 'Kazakhstani Tenge', symbol: '₸', flag: '🇰🇿', country: 'Kazakhstan', type: 'fiat' },
   { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh', flag: '🇰🇪', country: 'Kenya', type: 'fiat' },
@@ -119,7 +119,7 @@ export const allCurrencies: Currency[] = [
   { code: 'PAB', name: 'Panamanian Balboa', symbol: 'B/.', flag: '🇵🇦', country: 'Panama', type: 'fiat' },
   { code: 'PGK', name: 'Papua New Guinean Kina', symbol: 'K', flag: '🇵🇬', country: 'Papua New Guinea', type: 'fiat' },
   { code: 'PYG', name: 'Paraguayan Guarani', symbol: 'Gs', flag: '🇵🇾', country: 'Paraguay', type: 'fiat' },
-  { code: 'PEN', name: 'Peruvian Sol', symbol: 'S/', flag: '🇵🇪', country: 'Peru', isFavorite: true, type: 'fiat' },
+  { code: 'PEN', name: 'Peruvian Sol', symbol: 'S/', flag: '🇵🇪', country: 'Peru', type: 'fiat' },
   { code: 'PHP', name: 'Philippine Peso', symbol: '₱', flag: '🇵🇭', country: 'Philippines', type: 'fiat' },
   { code: 'PLN', name: 'Polish Złoty', symbol: 'zł', flag: '🇵🇱', country: 'Poland', type: 'fiat' },
   { code: 'QAR', name: 'Qatari Riyal', symbol: '﷼', flag: '🇶🇦', country: 'Qatar', type: 'fiat' },
@@ -138,7 +138,7 @@ export const allCurrencies: Currency[] = [
   { code: 'SRD', name: 'Surinamese Dollar', symbol: '$', flag: '🇸🇷', country: 'Suriname', type: 'fiat' },
   { code: 'SZL', name: 'Swazi Lilangeni', symbol: 'L', flag: '🇸🇿', country: 'Eswatini', type: 'fiat' },
   { code: 'SEK', name: 'Swedish Krona', symbol: 'kr', flag: '🇸🇪', country: 'Sweden', type: 'fiat' },
-  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF', flag: '🇨🇭', country: 'Switzerland', isFavorite: true, type: 'fiat' },
+  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF', flag: '🇨🇭', country: 'Switzerland', type: 'fiat' },
   { code: 'SYP', name: 'Syrian Pound', symbol: '£', flag: '🇸🇾', country: 'Syria', type: 'fiat' },
   { code: 'TWD', name: 'Taiwan Dollar', symbol: 'NT$', flag: '🇹🇼', country: 'Taiwan', type: 'fiat' },
   { code: 'TJS', name: 'Tajikistani Somoni', symbol: 'SM', flag: '🇹🇯', country: 'Tajikistan', type: 'fiat' },
@@ -153,7 +153,7 @@ export const allCurrencies: Currency[] = [
   { code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh', flag: '🇺🇬', country: 'Uganda', type: 'fiat' },
   { code: 'UAH', name: 'Ukrainian Hryvnia', symbol: '₴', flag: '🇺🇦', country: 'Ukraine', type: 'fiat' },
   { code: 'UYU', name: 'Uruguayan Peso', symbol: '$U', flag: '🇺🇾', country: 'Uruguay', type: 'fiat' },
-  { code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', country: 'United States', isFavorite: true, type: 'fiat' },
+  { code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', country: 'United States', type: 'fiat' },
   { code: 'UZS', name: 'Uzbekistani Som', symbol: 'лв', flag: '🇺🇿', country: 'Uzbekistan', type: 'fiat' },
   { code: 'VUV', name: 'Vanuatu Vatu', symbol: 'Vt', flag: '🇻🇺', country: 'Vanuatu', type: 'fiat' },
   { code: 'VES', name: 'Venezuelan Bolívar', symbol: 'Bs', flag: '🇻🇪', country: 'Venezuela', type: 'fiat' },
@@ -170,7 +170,7 @@ const FAVORITES_COOKIE_NAME = 'currency_favorites';
 export const getFavoriteCurrencies = (): Currency[] => {
   const favorites = getFavoritesFromCookie();
   return allCurrencies.filter(currency => 
-    currency.isFavorite || favorites.includes(currency.code)
+    favorites.includes(currency.code)
   );
 };
 
@@ -178,7 +178,7 @@ export const getFavoriteCurrencies = (): Currency[] => {
 export const getNonFavoriteCurrencies = (): Currency[] => {
   const favorites = getFavoritesFromCookie();
   return allCurrencies.filter(currency => 
-    !currency.isFavorite && !favorites.includes(currency.code)
+    !favorites.includes(currency.code)
   );
 };
 
@@ -215,8 +215,8 @@ export const searchCurrencies = (query: string): Currency[] => {
   
   // Sort results with favorites first
   const favorites = getFavoritesFromCookie();
-  const favoriteResults = results.filter(c => c.isFavorite || favorites.includes(c.code));
-  const nonFavoriteResults = results.filter(c => !c.isFavorite && !favorites.includes(c.code));
+  const favoriteResults = results.filter(c => favorites.includes(c.code));
+  const nonFavoriteResults = results.filter(c => !favorites.includes(c.code));
   
   return [...favoriteResults, ...nonFavoriteResults];
 };
@@ -275,9 +275,8 @@ export const toggleCurrencyFavorite = (currencyCode: string): void => {
 
 // Check if currency is favorite
 export const isCurrencyFavorite = (currencyCode: string): boolean => {
-  const currency = allCurrencies.find(c => c.code === currencyCode);
   const favorites = getFavoritesFromCookie();
-  return currency?.isFavorite || favorites.includes(currencyCode);
+  return favorites.includes(currencyCode);
 };
 
 // Get currency by code
@@ -292,6 +291,11 @@ export const getCurrenciesForDropdown = (): Currency[] => {
 
 // Initialize favorites from cookie (called on app start)
 export const initializeFavorites = (): void => {
-  // This function can be called to sync with cookies if needed
-  // Currently handled by the getter functions
+  const existingFavorites = getFavoritesFromCookie();
+  
+  // If no favorites exist, set default favorites
+  if (existingFavorites.length === 0) {
+    const defaultFavorites = ['COP', 'DOP', 'JMD', 'XCD'];
+    saveFavoritesToCookie(defaultFavorites);
+  }
 }; 

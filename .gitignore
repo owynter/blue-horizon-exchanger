@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Package manager lockfiles (keep only package-lock.json for npm)
+bun.lockb
+yarn.lock
+pnpm-lock.yaml

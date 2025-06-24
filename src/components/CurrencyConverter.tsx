@@ -5,7 +5,14 @@ import { Switch } from '@/components/ui/switch';
 import BaseCurrencySection from './BaseCurrencySection';
 import TargetCurrenciesSection from './TargetCurrenciesSection';
 import ConversionArrows from './ConversionArrows';
-import { currencies, calculateConversion, calculateCrossCurrencyConversion, TargetCurrency } from '@/data/CurrencyData';
+import { 
+  allCurrencies, 
+  getCurrenciesForDropdown, 
+  initializeFavorites, 
+  Currency, 
+  TargetCurrency 
+} from '@/data/AllCurrencies';
+import { calculateConversion, calculateCrossCurrencyConversion } from '@/data/CurrencyData';
 import { generateRealisticTimestamp, formatRelativeTime } from '@/utils/timestampUtils';
 
 const MAX_CURRENCIES = 10;
@@ -21,6 +28,11 @@ const CurrencyConverter: React.FC = () => {
   const [sourceAmount, setSourceAmount] = useState('1000');
   const [lastUpdated, setLastUpdated] = useState<Date>(generateRealisticTimestamp());
   const [showDecimals, setShowDecimals] = useState(true);
+
+  // Initialize favorites system
+  useEffect(() => {
+    initializeFavorites();
+  }, []);
 
   // Update timestamp every hour to simulate rate updates
   useEffect(() => {
@@ -97,8 +109,12 @@ const CurrencyConverter: React.FC = () => {
       
       setTargetCurrencies([...targetCurrencies, newCurrency]);
       
+      // Get currency info for better toast message
+      const currency = allCurrencies.find(c => c.code === currencyCode);
+      const currencyType = currency?.type === 'crypto' ? 'cryptocurrency' : 'currency';
+      
       toast({
-        title: "Currency added",
+        title: `${currencyType.charAt(0).toUpperCase() + currencyType.slice(1)} added`,
         description: `${currencyCode} has been added to your conversion list.`,
       });
     }
@@ -132,7 +148,7 @@ const CurrencyConverter: React.FC = () => {
     ));
   };
 
-  const availableCurrencies = currencies.filter(c => 
+  const availableCurrencies = allCurrencies.filter(c => 
     c.code !== baseCurrency && !targetCurrencies.some(tc => tc.code === c.code)
   );
 
@@ -143,7 +159,7 @@ const CurrencyConverter: React.FC = () => {
           {/* Main title - using Sora font for primary headings */}
           <h1 className="text-4xl font-bold text-sky-400 mb-4 font-sora">Currency converter</h1>
           {/* Subtitle - using Sora font for secondary headings */}
-          <p className="text-blue-200 font-sora">Convert between multiple currencies in real-time</p>
+          <p className="text-blue-200 font-sora">Convert between multiple currencies & cryptocurrencies in real-time</p>
           {/* Last updated info - using Inter font for body text */}
           <p className="text-xs text-blue-300/80 mt-2 font-inter">
             Rates last updated: {formatRelativeTime(lastUpdated)}
@@ -159,7 +175,7 @@ const CurrencyConverter: React.FC = () => {
                 baseCurrency={baseCurrency}
                 onAmountChange={handleBaseAmountChange}
                 onCurrencyChange={setBaseCurrency}
-                currencies={currencies}
+                currencies={allCurrencies}
                 showDecimals={showDecimals}
                 onDecimalToggle={setShowDecimals}
               />
@@ -173,7 +189,7 @@ const CurrencyConverter: React.FC = () => {
               baseCurrency={baseCurrency}
               onCurrencyChange={updateTargetCurrency}
               onRemove={removeCurrency}
-              currencies={currencies}
+              currencies={allCurrencies}
               calculateConversion={calculateConversion}
               availableCurrencies={availableCurrencies}
               onAddMultipleCurrencies={handleCurrencyToggle}

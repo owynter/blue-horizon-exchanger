@@ -1,9 +1,9 @@
-
 import React from 'react';
-import CurrencyInput from './CurrencyInput';
+import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Currency } from '@/data/CurrencyData';
+import { Label } from '@/components/ui/label';
+import { Currency } from '@/data/AllCurrencies';
+import CurrencyInput from './CurrencyInput';
 
 interface BaseCurrencySectionProps {
   baseAmount: string;
@@ -12,7 +12,7 @@ interface BaseCurrencySectionProps {
   onCurrencyChange: (currency: string) => void;
   currencies: Currency[];
   showDecimals: boolean;
-  onDecimalToggle: (checked: boolean) => void;
+  onDecimalToggle: (show: boolean) => void;
 }
 
 const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
@@ -26,34 +26,32 @@ const BaseCurrencySection: React.FC<BaseCurrencySectionProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      {/* Title - using Sora font for headings */}
-      <h3 className="text-lg font-semibold text-blue-900 mb-4 font-sora">Amount</h3>
-      <CurrencyInput
-        amount={baseAmount}
-        currency={baseCurrency}
-        isBase={true}
-        onAmountChange={onAmountChange}
-        onCurrencyChange={onCurrencyChange}
-        currencies={currencies}
-        showDecimals={showDecimals}
-      />
+      <div className="space-y-3">
+        <label className="block text-sm font-medium text-blue-900 font-sora">
+          Base Currency
+        </label>
+        <CurrencyInput
+          amount={baseAmount}
+          currency={baseCurrency}
+          isBase={true}
+          onAmountChange={onAmountChange}
+          onCurrencyChange={onCurrencyChange}
+          currencies={currencies}
+          showDecimals={showDecimals}
+        />
+      </div>
+    
+      <Separator className="bg-blue-200" />
       
-      {/* Decimal Toggle */}
-      <div className="flex items-center gap-3 py-2">
-        {/* Label - using Sora font for interface labels */}
-        <span className="text-sm font-semibold text-blue-900 font-sora">Show decimals</span>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Switch
-              checked={showDecimals}
-              onCheckedChange={onDecimalToggle}
-            />
-          </TooltipTrigger>
-          <TooltipContent>
-            {/* Tooltip text - using Inter font for body text */}
-            <p className="font-inter">Toggle to show whole numbers only</p>
-          </TooltipContent>
-        </Tooltip>
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="decimal-toggle"
+          checked={showDecimals}
+          onCheckedChange={onDecimalToggle}
+        />
+        <Label htmlFor="decimal-toggle" className="text-sm text-gray-600 font-inter">
+          Show decimal places
+        </Label>
       </div>
     </div>
   );

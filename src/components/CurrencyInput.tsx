@@ -1,11 +1,11 @@
-
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { useCurrencyInput } from '@/hooks/useCurrencyInput';
 import { formatNumberWithDecimals } from '@/lib/numberUtils';
 import CurrencyInputControls from './CurrencyInputControls';
 import CurrencyRemoveButton from './CurrencyRemoveButton';
-import CurrencyDropdown from './CurrencyDropdown';
+import EnhancedCurrencyDropdown from './EnhancedCurrencyDropdown';
+import { Currency } from '@/data/AllCurrencies';
 
 interface CurrencyInputProps {
   amount: string;
@@ -14,8 +14,8 @@ interface CurrencyInputProps {
   onAmountChange?: (amount: string) => void;
   onCurrencyChange: (currency: string) => void;
   onRemove?: () => void;
-  currencies: Array<{ code: string; name: string; symbol: string; flag: string }>;
-  dragHandleProps?: any;
+  currencies: Currency[];
+  dragHandleProps?: React.HTMLAttributes<HTMLDivElement>;
   showDecimals: boolean;
 }
 
@@ -82,7 +82,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
           />
           
           <div className="relative h-full flex items-center">
-            <CurrencyDropdown
+            <EnhancedCurrencyDropdown
               availableCurrencies={currencies}
               onSelect={onCurrencyChange}
               selectedCurrency={currency}

@@ -1,11 +1,10 @@
-
 import React from 'react';
-import CurrencyDropdown from './CurrencyDropdown';
-import { Currency } from '@/data/CurrencyData';
+import EnhancedCurrencyDropdown from './EnhancedCurrencyDropdown';
+import { Currency } from '@/data/AllCurrencies';
 
 interface MultiSelectCurrencyDropdownProps {
   availableCurrencies: Currency[];
-  onAddCurrencies: (currencyCode: string) => void; // Changed from string[] to string
+  onAddCurrencies: (currencyCode: string) => void;
 }
 
 const MultiSelectCurrencyDropdown: React.FC<MultiSelectCurrencyDropdownProps> = ({
@@ -16,7 +15,7 @@ const MultiSelectCurrencyDropdown: React.FC<MultiSelectCurrencyDropdownProps> = 
 
   return (
     <div className="pt-6 border-t border-blue-200">
-      <CurrencyDropdown
+      <EnhancedCurrencyDropdown
         availableCurrencies={availableCurrencies}
         onAddMultiple={onAddCurrencies}
         multiSelect={true}

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -16,15 +17,16 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Currency } from '@/data/CurrencyData';
+import FlagDisplay from './FlagDisplay';
 
 interface CurrencyDropdownProps {
   availableCurrencies: Currency[];
-  onSelect?: (currencyCode: string) => void; // For single select
-  onAddMultiple?: (currencyCode: string) => void; // Changed from string[] to string
+  onSelect?: (currencyCode: string) => void;
+  onAddMultiple?: (currencyCode: string) => void;
   multiSelect?: boolean;
   placeholder?: string;
   triggerClassName?: string;
-  selectedCurrency?: string; // For single select display
+  selectedCurrency?: string;
 }
 
 const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
@@ -81,7 +83,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                   </>
                 ) : selectedCurrencyData ? (
                   <div className="flex items-center gap-3">
-                    <span style={{ fontSize: '1.5rem' }}>{selectedCurrencyData.flag}</span>
+                    <FlagDisplay currency={selectedCurrencyData} size="md" showFallback={false} />
                     <span className="font-semibold text-stone-950 font-sora" style={{ fontSize: '1.125rem' }}>
                       {selectedCurrencyData.code}
                     </span>
@@ -115,7 +117,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                     className="cursor-pointer hover:bg-blue-50"
                   >
                     <div className="flex items-center gap-3 flex-1">
-                      <span className="text-lg">{currency.flag}</span>
+                      <FlagDisplay currency={currency} size="md" showFallback={false} />
                       <span className="font-medium font-sora">{currency.name} ({currency.code})</span>
                     </div>
                   </CommandItem>

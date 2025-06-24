@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,4 +99,17 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Enhanced emoji and flag display */
+.flag-emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", "Android Emoji", "EmojiSymbols", sans-serif;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.flag-fallback {
+  @apply inline-flex items-center justify-center text-xs font-semibold bg-blue-100 text-blue-800 rounded px-1.5 py-0.5 min-w-[2rem];
 }

@@ -263,7 +263,7 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Testimonial 1 */}
-            <div className="text-gray-500 border-2 border-zinc-200 border-solid rounded-2xl p-8">
+            <div className="text-gray-500 border-2 border-slate-100 border-solid rounded-2xl p-8">
               <div className="items-center flex">
                 <div className="relative w-full h-14 max-w-[3.50rem] mr-4 rounded-full">
                   <img 
@@ -284,7 +284,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Testimonial 2 */}
-            <div className="text-gray-500 border-2 border-zinc-200 border-solid rounded-2xl p-8">
+            <div className="text-gray-500 border-2 border-slate-100 border-solid rounded-2xl p-8">
               <div className="items-center flex">
                 <div className="relative w-full h-14 max-w-[3.50rem] mr-4 rounded-full">
                   <img 
@@ -305,11 +305,11 @@ const Home: React.FC = () => {
             </div>
 
             {/* Testimonial 3 */}
-            <div className="text-gray-500 border-2 border-zinc-200 border-solid rounded-2xl p-8">
+            <div className="text-gray-500 border-2 border-slate-100 border-solid rounded-2xl p-8">
               <div className="items-center flex">
                 <div className="relative w-full h-14 max-w-[3.50rem] mr-4 rounded-full">
                   <img 
-                    src="https://images.unsplash.com/photo-1494790108755-2616b332c142?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1461&q=80" 
                     alt="Emma Thompson" 
                     className="w-14 h-14 rounded-full object-cover"
                   />

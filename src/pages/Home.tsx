@@ -1,35 +1,47 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Calculator, TrendingUp, DollarSign, PieChart, Star, Users, Zap } from 'lucide-react';
+import { ArrowRight, Calculator, TrendingUp, DollarSign, PieChart, Star, Users, Zap, Grid3X3, BarChart3, CreditCard, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import FeatureCard from '@/components/FeatureCard';
 
 const Home: React.FC = () => {
   const features = [
     {
-      icon: <DollarSign className="h-8 w-8 text-blue-600" />,
+      icon: <Grid3X3 className="h-6 w-6" />,
       title: "Currency Converter",
-      description: "Convert between 170+ currencies with real-time exchange rates",
-      status: "available",
+      description: "Convert between 170+ currencies and cryptocurrencies with real-time exchange rates and favorites system",
+      status: "available" as const,
       href: "/currency-converter"
     },
     {
-      icon: <TrendingUp className="h-8 w-8 text-slate-400" />,
+      icon: <BarChart3 className="h-6 w-6" />,
       title: "Investment Calculator",
-      description: "Calculate compound interest and investment growth",
-      status: "coming-soon"
+      description: "Calculate compound interest, portfolio growth, and optimize your investment strategy over time",
+      status: "coming-soon" as const
     },
     {
-      icon: <Calculator className="h-8 w-8 text-slate-400" />,
+      icon: <CreditCard className="h-6 w-6" />,
       title: "Loan Calculator",
-      description: "Analyze loan payments, interest rates, and amortization",
-      status: "coming-soon"
+      description: "Analyze loan payments, interest rates, amortization schedules, and total cost of borrowing",
+      status: "coming-soon" as const
     },
     {
-      icon: <PieChart className="h-8 w-8 text-slate-400" />,
+      icon: <Target className="h-6 w-6" />,
       title: "Tax Calculator",
-      description: "Estimate taxes and optimize your financial planning",
-      status: "coming-soon"
+      description: "Estimate taxes, deductions, and optimize your financial planning for maximum savings",
+      status: "coming-soon" as const
+    },
+    {
+      icon: <TrendingUp className="h-6 w-6" />,
+      title: "Budget Planner",
+      description: "Track expenses, set financial goals, and monitor your progress towards financial freedom",
+      status: "coming-soon" as const
+    },
+    {
+      icon: <Calculator className="h-6 w-6" />,
+      title: "Retirement Calculator",
+      description: "Plan for retirement with detailed projections based on your savings and investment timeline",
+      status: "coming-soon" as const
     }
   ];
 
@@ -93,63 +105,35 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-sora">
-              Powerful Financial Tools
+      {/* Main Features Section */}
+      <section className="py-12 lg:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-bold text-slate-900 mb-3 font-inter leading-tight">
+              Main Features
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-inter">
-              Our suite of calculators is designed to simplify complex financial decisions and help you plan for the future.
+            <p className="text-base text-slate-600 max-w-2xl mx-auto font-inter leading-normal">
+              Kickstart your financial planning using our comprehensive calculator suite. Unlock a suite of all essential tools for seamless creation of financial insights, investment analysis, and more – all without the hassle of complex spreadsheets or expensive software.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
-              <Card 
-                key={index} 
-                className={`relative transition-all duration-300 hover:shadow-lg ${
-                  feature.status === 'available' 
-                    ? 'hover:scale-105 cursor-pointer border-blue-200' 
-                    : 'opacity-75'
-                }`}
-              >
-                {feature.status === 'available' && (
-                  <div className="absolute -top-3 -right-3 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full font-inter">
-                    Available
-                  </div>
-                )}
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 p-3 bg-blue-50 rounded-full w-fit">
-                    {feature.icon}
-                  </div>
-                  <CardTitle className="text-xl font-sora">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <CardDescription className="text-gray-600 mb-4 font-inter">
-                    {feature.description}
-                  </CardDescription>
-                  {feature.status === 'available' ? (
-                    <Link to={feature.href!}>
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 font-inter">
-                        Use Calculator
-                      </Button>
-                    </Link>
-                  ) : (
-                    <Button disabled className="w-full font-inter">
-                      Coming Soon
-                    </Button>
-                  )}
-                </CardContent>
-              </Card>
+              <FeatureCard
+                key={index}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                status={feature.status}
+                href={feature.href}
+              />
             ))}
           </div>
         </div>
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-sora">
@@ -201,23 +185,14 @@ const Home: React.FC = () => {
             Ready to Get Started?
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto font-inter">
-            Join thousands of users who trust our calculators for their financial planning needs.
+            Join thousands of users who trust Blue Horizon for their financial calculations.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/currency-converter">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3 font-inter">
-                Start Converting Now
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-white text-white hover:bg-blue-700 font-inter"
-            >
-              Create Free Account
+          <Link to="/currency-converter">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3 font-inter">
+              Start Converting Now
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-          </div>
+          </Link>
         </div>
       </section>
     </div>

@@ -4,7 +4,6 @@ export interface Currency {
   symbol: string;
   flag: string;
   country: string;
-  isFavorite?: boolean;
   type?: 'fiat' | 'crypto';
 }
 

@@ -117,8 +117,10 @@ const EnhancedCurrencyDropdown: React.FC<EnhancedCurrencyDropdownProps> = ({
 
   // Group currencies for display
   const favoriteCurrencies = currenciesToShow.filter(c => isCurrencyFavorite(c.code));
-  const cryptoCurrencies = currenciesToShow.filter(c => c.type === 'crypto' && !isCurrencyFavorite(c.code));
-  const fiatCurrencies = currenciesToShow.filter(c => c.type === 'fiat' && !isCurrencyFavorite(c.code));
+  const cryptoCurrencies = currenciesToShow.filter(c => c.type === 'crypto' && !isCurrencyFavorite(c.code))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const fiatCurrencies = currenciesToShow.filter(c => c.type === 'fiat' && !isCurrencyFavorite(c.code))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const CurrencyItem = ({ currency }: { currency: Currency }) => (
     <CommandItem

@@ -377,15 +377,17 @@ const Home: React.FC = () => {
               <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full opacity-20 blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-400 to-purple-600 rounded-full opacity-20 blur-3xl"></div>
               
-              {/* Phone Container */}
-              <div className="relative z-10 max-w-sm mx-auto">
-                <div className="bg-black rounded-[3rem] p-2 shadow-2xl">
+              {/* iPhone Container - Proper iPhone 14 Pro proportions (19.5:9 aspect ratio) */}
+              <div className="relative z-10 mx-auto" style={{ width: '320px', height: '693px' }}>
+                <div className="bg-black rounded-[3rem] p-2 shadow-2xl w-full h-full">
                   {/* Phone Screen */}
-                  <div className="bg-white rounded-[2.5rem] overflow-hidden">
-                    {/* Status Bar */}
-                    <div className="bg-white px-6 py-2 flex justify-between items-center text-sm font-medium">
-                      <span>9:41</span>
-                      <div className="flex items-center gap-1">
+                  <div className="bg-white rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col">
+                    {/* Status Bar with Dynamic Island */}
+                    <div className="bg-white px-6 py-3 flex justify-between items-center text-sm font-medium relative">
+                      {/* Dynamic Island */}
+                      <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-full"></div>
+                      <span className="pt-4">9:41</span>
+                      <div className="flex items-center gap-1 pt-4">
                         <div className="flex gap-1">
                           <div className="w-1 h-1 bg-black rounded-full"></div>
                           <div className="w-1 h-1 bg-black rounded-full"></div>
@@ -400,7 +402,7 @@ const Home: React.FC = () => {
                     </div>
 
                     {/* App Content */}
-                    <div className="px-6 pb-8">
+                    <div className="px-6 pb-8 flex-1 overflow-hidden">
                       {/* Header */}
                       <div className="flex items-center justify-between mb-6">
                         <h3 className="text-xl font-bold font-sora">Currency Converter</h3>
@@ -411,7 +413,16 @@ const Home: React.FC = () => {
                       <div className="bg-blue-50 rounded-2xl p-4 mb-4 border-2 border-blue-200">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-2xl">🇺🇦</span>
+                            <img 
+                              src="https://flagcdn.com/w40/ua.png" 
+                              alt="Ukraine" 
+                              className="w-6 h-4 rounded-sm object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling.style.display = 'inline';
+                              }}
+                            />
+                            <span className="text-xl hidden">🇺🇦</span>
                             <span className="font-semibold">UAH</span>
                           </div>
                           <span className="text-2xl font-bold">10 000,00 ₴</span>
@@ -422,15 +433,26 @@ const Home: React.FC = () => {
                       {/* Conversion Results */}
                       <div className="space-y-3">
                         {[
-                          { flag: '🇺🇸', code: 'USD', amount: '247,19 $', rate: '1 USD = 40,46 UAH', name: 'United States Dollar' },
-                          { flag: '🇵🇱', code: 'PLN', amount: '977,48 zł', rate: '1 PLN = 10,42 UAH', name: 'Polish Złoty' },
-                          { flag: '🇪🇺', code: 'EUR', amount: '227,29 €', rate: '1 EUR = 44,78 UAH', name: 'Euro' },
-                          { flag: '🇯🇵', code: 'JPY', amount: '38 877,38 ¥', rate: '1 JPY = 0,26 UAH', name: 'Japan Yen' },
-                          { flag: '🇬🇧', code: 'GBP', amount: '193,74 £', rate: '1 GBP = 53,16 UAH', name: 'British Pound' }
+                          { flagUrl: 'https://flagcdn.com/w40/us.png', fallback: '🇺🇸', code: 'USD', amount: '247,19 $', rate: '1 USD = 40,46 UAH', name: 'United States Dollar' },
+                          { flagUrl: 'https://flagcdn.com/w40/pl.png', fallback: '🇵🇱', code: 'PLN', amount: '977,48 zł', rate: '1 PLN = 10,42 UAH', name: 'Polish Złoty' },
+                          { flagUrl: 'https://flagcdn.com/w40/eu.png', fallback: '🇪🇺', code: 'EUR', amount: '227,29 €', rate: '1 EUR = 44,78 UAH', name: 'Euro' },
+                          { flagUrl: 'https://flagcdn.com/w40/jp.png', fallback: '🇯🇵', code: 'JPY', amount: '38 877,38 ¥', rate: '1 JPY = 0,26 UAH', name: 'Japan Yen' },
+                          { flagUrl: 'https://flagcdn.com/w40/gb.png', fallback: '🇬🇧', code: 'GBP', amount: '193,74 £', rate: '1 GBP = 53,16 UAH', name: 'British Pound' }
                         ].map((currency, index) => (
                           <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                             <div className="flex items-center gap-3">
-                              <span className="text-lg">{currency.flag}</span>
+                              <div className="relative w-6 h-4">
+                                <img 
+                                  src={currency.flagUrl} 
+                                  alt={currency.name} 
+                                  className="w-6 h-4 rounded-sm object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                    e.currentTarget.nextElementSibling.style.display = 'inline';
+                                  }}
+                                />
+                                <span className="text-lg hidden">{currency.fallback}</span>
+                              </div>
                               <div>
                                 <div className="font-semibold text-sm">{currency.code}</div>
                                 <div className="text-xs text-gray-500">{currency.rate}</div>
@@ -466,58 +488,33 @@ const Home: React.FC = () => {
       </section>
 
       {/* Enhanced CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-white to-blue-200 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-          <div className="absolute bottom-0 right-0 w-72 h-72 bg-gradient-to-tl from-white to-purple-200 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
-        </div>
+      <section className="py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-3xl p-12 text-center relative overflow-hidden">
+            {/* Background Effects */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-white to-blue-200 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+              <div className="absolute bottom-0 right-0 w-72 h-72 bg-gradient-to-tl from-white to-purple-200 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
+            </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-sora">
-            Start Making Smarter
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-cyan-200">
-              Financial Decisions Today
-            </span>
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto font-inter leading-relaxed">
-            Join over 5,000+ users who rely on Blue Horizon for accurate financial calculations. 
-            Start with our comprehensive currency converter and discover the difference precision makes.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link to="/currency-converter">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-4 text-lg font-inter shadow-lg hover:shadow-xl transition-all duration-200">
-                Try Currency Converter Free
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-2 border-blue-200 text-blue-100 hover:bg-blue-800/50 font-inter px-8 py-4 text-lg backdrop-blur-sm"
-            >
-              View All Features
-            </Button>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-blue-500/30">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-white font-sora">170+</div>
-              <div className="text-blue-200 text-sm font-inter">Currencies Supported</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-white font-sora">Real-time</div>
-              <div className="text-blue-200 text-sm font-inter">Exchange Rates</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-white font-sora">5K+</div>
-              <div className="text-blue-200 text-sm font-inter">Happy Users</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-white font-sora">Free</div>
-              <div className="text-blue-200 text-sm font-inter">Always & Forever</div>
+            <div className="relative">
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-sora">
+                Start Making Smarter
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-cyan-200">
+                  Financial Decisions Today
+                </span>
+              </h2>
+              <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto font-inter leading-relaxed">
+                Join over 5,000+ users who rely on Blue Horizon for accurate financial calculations. 
+                Start with our comprehensive currency converter and discover the difference precision makes.
+              </p>
+              
+              <Link to="/currency-converter">
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-4 text-lg font-inter shadow-lg hover:shadow-xl transition-all duration-200">
+                  Try Currency Converter Free
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

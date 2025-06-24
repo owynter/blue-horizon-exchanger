@@ -21,8 +21,10 @@ const CurrencyConverter: React.FC = () => {
   const [baseAmount, setBaseAmount] = useState('1000');
   const [baseCurrency, setBaseCurrency] = useState('USD');
   const [targetCurrencies, setTargetCurrencies] = useState<TargetCurrency[]>([
-    { id: '1', code: 'EUR' },
-    { id: '2', code: 'GBP' },
+    { id: '1', code: 'COP' },
+    { id: '2', code: 'DOP' },
+    { id: '3', code: 'JMD' },
+    { id: '4', code: 'XCD' },
   ]);
   const [lastEditedCurrency, setLastEditedCurrency] = useState('USD');
   const [sourceAmount, setSourceAmount] = useState('1000');
